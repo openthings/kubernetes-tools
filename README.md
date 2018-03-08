@@ -9,9 +9,11 @@ Some tools for kubernetes.
 ## Kubernetes软件过程
 
 - Helm，面向Kubernetes的容器包管理平台。
-- 基于Kubernetes 运行 Jenkins，https://my.oschina.net/u/2306127/blog/1631617
-- Freshpod，Kubernetes上的容器更新后自动部署，容器开发者适用。https://ahmet.im/blog/freshpod/?from=groupmessage&isappinstalled=0
-- 
+- GitLab，软件源码服务与版本管理系统。
+- Harbor，容器镜像服务与管理系统。
+- Jenkins，基于Kubernetes 运行集群，https://my.oschina.net/u/2306127/blog/1631617。
+- Freshpod，Kubernetes上的容器更新后自动部署，容器开发者适用。https://my.oschina.net/u/2306127/blog/1631634。
+
 ## Kubernetes基础应用
 
 - Rook，基于Kubernetes的分布式存储系统，目前支持Ceph的Kubernetes部署。
