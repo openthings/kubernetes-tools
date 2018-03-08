@@ -1,0 +1,1 @@
+kubectl port-forward kubernetes-dashboard-7798c48646-wkgk4 8443:8443 --namespace=kube-system &
