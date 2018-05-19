@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dl-caffe
+spec:
+  containers:
+    - name: docker-dl-caffe
+      image: nvidia/caffe
+      resources:
+        limits:
+          nvidia.com/gpu: 1 # requesting 1 GPUs

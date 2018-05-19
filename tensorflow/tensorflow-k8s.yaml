@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: openthings-tensorflow
+spec:
+  containers:
+    - name: openthings-container
+      image: tensorflow/tensorflow:latest-gpu
+      resources:
+        limits:
+          nvidia.com/gpu: 1 # requesting 1 GPUs
+
