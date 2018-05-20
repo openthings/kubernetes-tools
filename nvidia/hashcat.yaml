@@ -4,8 +4,8 @@ metadata:
   name: nvidia-hashcat
 spec:
   containers:
-    - name: nvidia-container
-      image: openthings/hashcat:latest
+    - name: nvidia-container-hashcat
+      image: openthings/hashcat
       resources:
         limits:
-          nvidia.com/gpu: 1 # requesting 1 GPUs
+          nvidia.com/gpu: 1 # requesting 2 GPUs
