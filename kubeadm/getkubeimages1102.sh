@@ -17,16 +17,16 @@ docker pull mirrorgooglecontainers/kube-proxy-amd64:v1.10.2
 docker tag mirrorgooglecontainers/kube-proxy-amd64:v1.10.2 gcr.io/google_containers/kube-proxy-amd64:v1.10.2
 
 echo "==>k8s-dns-sidecar:"
-docker pull mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.10
-docker tag mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.9 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.9
+docker pull mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.8
+docker tag mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.8 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.8
 
 echo "==>k8s-dns-kube-dns:"
-docker pull mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.10
-docker tag mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.9 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.9
+docker pull mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.8
+docker tag mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.8 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.8
 
 echo "==>k8s-dns-dnsmasq-nanny:"
-docker pull mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.10
-docker tag mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.9 gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.9
+docker pull mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.8
+docker tag mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.8 gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.8
 
 echo "==>etcd:"
 docker pull mirrorgooglecontainers/etcd-amd64:3.1.12
