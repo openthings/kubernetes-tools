@@ -1,0 +1,14 @@
+piVersion: "v1"
+kind: "PersistentVolume"
+metadata:
+  name: gce-disk-1
+  annotations:
+    volume.beta.kubernetes.io/mount-options: "discard"
+spec:
+  capacity:
+    storage: "10Gi"
+  accessModes:
+    - "ReadWriteOnce"
+  gcePersistentDisk:
+    fsType: "ext4"
+    pdName: "gce-disk-1"
