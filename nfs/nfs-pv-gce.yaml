@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-nfs-server-provisioner-0
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    fsType: "ext4"
+    pdName: "data-nfs-server-provisioner-0"
+  claimRef:
+    namespace: kube-system
+    name: data-nfs-server-provisioner-0
