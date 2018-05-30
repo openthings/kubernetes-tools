@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jupyterhub-nfs-web-config
+  namespace: nfs-server
+data:
+  default.conf: |-
+    server {
+        listen   80;
+            server_name  localhost;
+            root /usr/share/nginx/html;
+            location / {
+                index none;
+                autoindex on;
+                autoindex_exact_size off;
+                autoindex_localtime on;
+        }
+    }
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jupyterhub-nfs-web
+  namespace: nfs-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jupyterhub-nfs-web
+    spec:
+      containers:
+      - name: web
+        image: nginx
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: nfs
+            mountPath: "/usr/share/nginx/html"
+          - name: config-volume
+            mountPath: "/etc/nginx/conf.d/"
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: nfs-server/jupyterhub-nfs
+        - name: config-volume
+          configMap:
+            name: jupyterhub-nfs-web-config

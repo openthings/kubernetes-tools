@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-server
+
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -22,16 +28,19 @@ spec:
         securityContext:
           privileged: true
         volumeMounts:
-          - name: mypvc
-            mountPath: /exports
+        - mountPath: /exports
+          name: mypvcs
       volumes:
-        - name: mypvc
-          hostPath:
-      	    path: /home/supermap/data
+      - name: mypvc
+        hostPath:
+      	  path: /home/openthings/data
+
 
 #        - name: mypvc
 #          persistentVolumeClaim:
 #            claimName: jupyterhub-storage
+
+
 
 
 ---

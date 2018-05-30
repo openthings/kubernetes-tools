@@ -1,7 +1,14 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-server
+
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: jupyterhub-nfs
+  namespace: nfs-server
 spec:
   containers:
   - name: nfs-server
@@ -21,13 +28,14 @@ spec:
   volumes:
   - name: mypvc
     hostPath:
-      path: /home/supermap/data
+      path: /home/openthings/data
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: jupyterhub-nfs
+  namespace: nfs-server
 spec:
   ports:
     - name: nfs
