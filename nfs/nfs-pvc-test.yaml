@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pvc
+  name: test-dynamic-volume-claim
 spec:
   storageClassName: "nfs"
   accessModes:

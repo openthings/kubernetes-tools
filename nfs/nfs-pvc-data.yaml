@@ -1,12 +1,11 @@
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: test-dynamic-volume-claim
+  name: data-nfs-server-provisioner-0
 spec:
   storageClassName: "nfs"
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi
-
