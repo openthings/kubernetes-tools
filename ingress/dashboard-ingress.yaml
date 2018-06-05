@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: k8s-dashboard
+  namespace: kube-system
+spec:
+  tls:
+  - hosts:
+    - localhost
+    secretName: k8s-dashboard-secret
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 80
+        path: /
