@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc-prometheus
+spec:
+  storageClassName: "nfs"
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 800Mi

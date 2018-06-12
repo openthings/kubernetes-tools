@@ -1,0 +1,1 @@
+helm del --purge prometheus

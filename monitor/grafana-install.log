@@ -1,0 +1,64 @@
+supermap@supermap:~/openthings/kubernetes-tools$ helm install --name grafana --namespace=monitor stable/grafana
+NAME:   grafana
+LAST DEPLOYED: Mon Jun 11 15:26:07 2018
+NAMESPACE: monitor
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/ConfigMap
+NAME                     DATA  AGE
+grafana                  1     1s
+grafana-dashboards-json  0     1s
+
+==> v1beta2/Deployment
+NAME     DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+grafana  1        1        1           0          1s
+
+==> v1beta1/PodSecurityPolicy
+NAME     DATA   CAPS      SELINUX           RUNASUSER  FSGROUP    SUPGROUP  READONLYROOTFS  VOLUMES
+grafana  false  RunAsAny  MustRunAsNonRoot  MustRunAs  MustRunAs  false     configMap,emptyDir,projected,secret,downwardAPI,persistentVolumeClaim
+
+==> v1/Pod(related)
+NAME                      READY  STATUS             RESTARTS  AGE
+grafana-68cd8b679b-djp25  0/1    ContainerCreating  0         1s
+
+==> v1/Secret
+NAME     TYPE    DATA  AGE
+grafana  Opaque  3     1s
+
+==> v1/ServiceAccount
+NAME     SECRETS  AGE
+grafana  1        1s
+
+==> v1beta1/Role
+NAME     AGE
+grafana  1s
+
+==> v1beta1/RoleBinding
+NAME     AGE
+grafana  1s
+
+==> v1/Service
+NAME     TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)  AGE
+grafana  ClusterIP  10.102.165.200  <none>       80/TCP   1s
+
+
+NOTES:
+1. Get your 'admin' user password by running:
+
+   kubectl get secret --namespace monitor grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+   grafana.monitor.svc.cluster.local
+
+   Get the Grafana URL to visit by running these commands in the same shell:
+
+     export POD_NAME=$(kubectl get pods --namespace monitor -l "app=grafana,component=" -o jsonpath="{.items[0].metadata.name}")
+     kubectl --namespace monitor port-forward $POD_NAME 3000
+
+3. Login with the password from step 1 and the username: admin
+#################################################################################
+######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+######            the Grafana pod is terminated.                            #####
+#################################################################################

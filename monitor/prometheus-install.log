@@ -1,0 +1,93 @@
+supermap@supermap:~/openthings/kubernetes-tools/prometheus$ ./helm-install.sh
+NAME:   prometheus
+LAST DEPLOYED: Mon Jun 11 14:38:10 2018
+NAMESPACE: monitor
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/PersistentVolumeClaim
+NAME                     STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS  AGE
+prometheus-alertmanager  Bound   pvc-01f9a0fd-6d42-11e8-97f1-3085a99c4bbf  2Gi       RWO           nfs           5s
+prometheus-server        Bound   pvc-01fa3334-6d42-11e8-97f1-3085a99c4bbf  8Gi       RWO           nfs           5s
+
+==> v1beta1/ClusterRole
+NAME                           AGE
+prometheus-kube-state-metrics  5s
+prometheus-server              4s
+
+==> v1/ConfigMap
+NAME                     DATA  AGE
+prometheus-alertmanager  1     5s
+prometheus-server        3     5s
+
+==> v1beta1/ClusterRoleBinding
+NAME                           AGE
+prometheus-kube-state-metrics  4s
+prometheus-server              4s
+
+==> v1/Service
+NAME                           TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)   AGE
+prometheus-alertmanager        ClusterIP  10.100.171.14   <none>       80/TCP    4s
+prometheus-kube-state-metrics  ClusterIP  None            <none>       80/TCP    4s
+prometheus-node-exporter       ClusterIP  None            <none>       9100/TCP  4s
+prometheus-pushgateway         ClusterIP  10.98.73.80     <none>       9091/TCP  4s
+prometheus-server              ClusterIP  10.105.160.163  <none>       80/TCP    4s
+
+==> v1beta1/DaemonSet
+NAME                      DESIRED  CURRENT  READY  UP-TO-DATE  AVAILABLE  NODE SELECTOR  AGE
+prometheus-node-exporter  1        1        0      1           0          <none>         4s
+
+==> v1beta1/Deployment
+NAME                           DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+prometheus-alertmanager        1        1        1           0          4s
+prometheus-kube-state-metrics  1        1        1           0          4s
+prometheus-pushgateway         1        1        1           0          4s
+prometheus-server              1        1        1           0          3s
+
+==> v1/Pod(related)
+NAME                                            READY  STATUS             RESTARTS  AGE
+prometheus-node-exporter-9xc5z                  0/1    ContainerCreating  0         3s
+prometheus-alertmanager-6df98765f4-pd7qv        0/2    ContainerCreating  0         3s
+prometheus-kube-state-metrics-6584885ccf-g75tr  0/1    ContainerCreating  0         3s
+prometheus-pushgateway-5495f55cdf-n45hz         0/1    ContainerCreating  0         3s
+prometheus-server-5959898967-v9mr7              0/2    Init:0/1           0         3s
+
+==> v1/ServiceAccount
+NAME                           SECRETS  AGE
+prometheus-alertmanager        1        5s
+prometheus-kube-state-metrics  1        5s
+prometheus-node-exporter       1        5s
+prometheus-pushgateway         1        5s
+prometheus-server              1        5s
+
+
+NOTES:
+The Prometheus server can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-server.monitor.svc.cluster.local
+
+
+Get the Prometheus server URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace monitor -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace monitor port-forward $POD_NAME 9090
+
+
+The Prometheus alertmanager can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-alertmanager.monitor.svc.cluster.local
+
+
+Get the Alertmanager URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace monitor -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace monitor port-forward $POD_NAME 9093
+
+
+The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+prometheus-pushgateway.monitor.svc.cluster.local
+
+
+Get the PushGateway URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace monitor -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace monitor port-forward $POD_NAME 9091
+
+For more information on running Prometheus, visit:
+https://prometheus.io/
+
