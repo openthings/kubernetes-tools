@@ -33,10 +33,13 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
-  storageClass: "nfs"
+  #persistentVolumeClaim:
+  #  claimName: data-nfs-server-nfs-server-provisioner-0
+
+  storageClass: ""
+  #storageClass: "nfs"
   accessMode: ReadWriteOnce
-  size: 1Gi
+  size: 200Gi
 
 ## For creating the StorageClass automatically:
 storageClass:
@@ -47,7 +50,7 @@ storageClass:
 
   ## Set StorageClass as the default StorageClass
   ## Ignored if storageClass.create is false
-  defaultClass: true
+  defaultClass: false
 
   ## Set a StorageClass name
   ## Ignored if storageClass.create is false
@@ -69,7 +72,9 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
-nodeSelector: {}
+#nodeSelector: {}
+nodeSelector:
+      kubernetes.io/hostname: supermap
 
 tolerations: []
 

@@ -124,7 +124,7 @@ alertmanager:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
     ## alertmanager data Persistent Volume Claim annotations
     ##
@@ -133,7 +133,7 @@ alertmanager:
     ## alertmanager data Persistent Volume existing claim name
     ## Requires alertmanager.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    existingClaim: ""
+    #existingClaim: ""
 
     ## alertmanager data Persistent Volume mount root path
     ##
@@ -141,7 +141,7 @@ alertmanager:
 
     ## alertmanager data Persistent Volume size
     ##
-    size: 2Gi
+    size: 1Gi
 
     ## alertmanager data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
@@ -550,7 +550,7 @@ server:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
     ## Prometheus server data Persistent Volume annotations
     ##
@@ -559,7 +559,7 @@ server:
     ## Prometheus server data Persistent Volume existing claim name
     ## Requires server.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    existingClaim: ""
+    #existingClaim: ""
 
     ## Prometheus server data Persistent Volume mount root path
     ##
@@ -567,7 +567,7 @@ server:
 
     ## Prometheus server data Persistent Volume size
     ##
-    size: 8Gi
+    size: 1Gi
 
     ## Prometheus server data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
