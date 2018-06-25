@@ -40,4 +40,10 @@ registries:
       refSpec: v0.1.2
     protocol: github
     uri: github.com/kubeflow/kubeflow/tree/v0.1.2/kubeflow
+  kubeflowmaster:
+    gitVersion:
+      commitSha: 91048ad4eddda3f5c6544205ccf10e165f8433aa
+      refSpec: master
+    protocol: github
+    uri: github.com/google/kubeflow/tree/master/kubeflow
 version: 0.0.1

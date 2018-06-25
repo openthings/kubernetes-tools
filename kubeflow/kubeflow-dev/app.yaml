@@ -1,0 +1,30 @@
+apiVersion: 0.1.0
+environments:
+  default:
+    destination:
+      namespace: kubeflow-dev
+      server: https://192.168.199.249:6443
+    k8sVersion: v1.10.2
+    path: default
+  nocloud:
+    destination:
+      namespace: kubeflow-dev
+      server: https://192.168.199.249:6443
+    k8sVersion: v1.10.2
+    path: nocloud
+kind: ksonnet.io/app
+name: kubeflow-dev
+registries:
+  incubator:
+    gitVersion:
+      commitSha: 40285d8a14f1ac5787e405e1023cf0c07f6aa28c
+      refSpec: master
+    protocol: github
+    uri: github.com/ksonnet/parts/tree/master/incubator
+  kubeflow:
+    gitVersion:
+      commitSha: 91048ad4eddda3f5c6544205ccf10e165f8433aa
+      refSpec: master
+    protocol: github
+    uri: github.com/google/kubeflow/tree/master/kubeflow
+version: 0.0.1
