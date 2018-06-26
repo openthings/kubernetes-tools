@@ -9,7 +9,7 @@
       jupyterHubAuthenticator: "null",
       jupyterHubImage: "gcr.io/kubeflow/jupyterhub-k8s:1.0.1",
       jupyterHubServiceType: "ClusterIP",
-      jupyterNotebookPVCMount: "null",
+      jupyterNotebookPVCMount: "/home/jovyan/work",
       name: "kubeflow-core",
       namespace: "null",
       reportUsage: true,
@@ -17,7 +17,7 @@
       tfDefaultImage: "null",
       tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v20180329-a7511ff",
       tfJobUiServiceType: "ClusterIP",
-      usageId: "96243c2a-c78e-4d94-a9ea-10e474004f2c"
+      usageId: "e38ddf2d-4dba-4396-845c-3ffb6131509c"
     }
   }
 }
