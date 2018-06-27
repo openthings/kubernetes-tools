@@ -1,0 +1,2 @@
+proxy:
+  secretToken:"<OUTPUT-OF-`openssl rand -hex 32`>"
