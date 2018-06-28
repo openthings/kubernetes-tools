@@ -7,7 +7,7 @@ metadata:
 spec:      
   containers:  
   - image: ubuntu:16.04
-    command:          
+    command: 
     - sh          
     - -c          
     - 'while true; do date > /mnt/test/index.html; hostname >> /mnt/test/index.html; sleep $(($RANDOM % 5 + 5)); done' 

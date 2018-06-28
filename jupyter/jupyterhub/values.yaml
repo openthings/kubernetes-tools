@@ -21,7 +21,7 @@ hub:
         - ReadWriteOnce
       storage: 1Gi
       subPath:
-      storageClassName:
+      storageClassName: "nfs"
     url:
   labels: {}
   annotations:
@@ -29,7 +29,12 @@ hub:
     prometheus.io/path: /hub/metrics
   extraConfig: {}
   extraConfigMap: {}
-  extraEnv: {}
+#  extraEnv: {}
+  extraEnv:
+    JUPYTER_ENABLE_LAB: 1
+  extraConfig: |
+    c.KubeSpawner.cmd = ['jupyter-labhub']
+
   extraContainers: []
   extraVolumes: []
   extraVolumeMounts: []
@@ -57,9 +62,10 @@ rbac:
 
 
 proxy:
-  secretToken: "6f1938382f3c5590fa18f406c3bb038efe99f8c1137b48291a6673513bd61877"
+#  secretToken: "6f1938382f3c5590fa18f406c3bb038efe99f8c1137b48291a6673513bd61877"
+  secretToken: "dd059008b578a60b058725b74af50c7589300aab4ede45f5249a3b197355f181"
   service:
-    type: nodePort
+    type: NodePort
     labels: {}
     annotations: {}
     nodePorts:
@@ -156,19 +162,21 @@ singleuser:
     type: dynamic
     extraVolumes: []
     extraVolumeMounts: []
-    static:
-      pvcName:
-      subPath: '{username}'
-    capacity: 10Gi
+    #static:
+    #  pvcName:
+    #  subPath: '{username}'
+    capacity: 1Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass:
+      storageClass: "nfs"
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: jupyterhub/k8s-singleuser-sample
-    tag: 36a8dcb
+    name: jupyter/all-spark-notebook
+    tag: 5811dcb711ba
+    # name: jupyterhub/k8s-singleuser-sample
+    # tag: 36a8dcb
     pullPolicy: IfNotPresent
   startTimeout: 300
   cpu:
@@ -178,7 +186,7 @@ singleuser:
     limit:
     guarantee: 1G
   cmd: jupyterhub-singleuser
-  defaultUrl:
+  defaultUrl: "/lab"
 
 
 prePuller:
