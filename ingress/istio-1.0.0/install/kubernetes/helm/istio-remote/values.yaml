@@ -1,0 +1,62 @@
+# Use --set to specify the endpoints of the main Istio control plane
+# NB: These defaults do not work properly - they must be overriden with
+# IP addresses
+
+global:
+  # The Istio control plane Pilot endpoint
+  pilotEndpoint: istio-pilot.istio-system
+
+  # The Istio control plane Policy endpoint
+  policyEndpoint: istio-policy.istio-system
+
+  # The Istio control plane statsd endpoint
+  statsdEndpoint: istio-statsd-prom-bridge.istio-system
+
+  # The Istio control plane ingress endpoint
+  ingressEndpoint: istio-ingress.istio-system
+
+  # The Istio control plane telemetry endpoint
+  telemetryEndpoint: istio-telemetry.istio-system
+
+  # The Istio control plane zipkin endpoint
+  zipkinEndpoint: zipkin.istio-system
+
+  # Default tag for Istio images.
+  hub: docker.io/istionightly
+
+  # Default tag for Istio images.
+  # Should track latest released version.
+  # Currently using nightly build, for testing
+  tag: circleci-nightly
+
+  # imagePullPolicy is applied to istio control plane components.
+  imagePullPolicy: IfNotPresent
+
+  ## imagePullSecrets for all ServiceAccount. Must be set for any clustser configured with privte docker registry.
+  imagePullSecrets:
+    # - private-registry-key
+
+  # Specify pod scheduling arch(amd64, ppc64le, s390x) and weight as follows:
+  #   0 - Never scheduled
+  #   1 - Least preferred
+  #   2 - No preference
+  #   3 - Most preferred
+  arch:
+    amd64: 2
+    s390x: 2
+    ppc64le: 2
+
+#
+# security configuration
+#
+security:
+  replicaCount: 1
+  image: citadel
+  resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+# Any customization for istio testing should be here
