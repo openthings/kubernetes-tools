@@ -138,17 +138,21 @@ singleuser:
       name: jupyterhub/k8s-network-tools
       tag: 36a8dcb
   cloudMetadata:
-    enabled: false
+    enabled: true
     ip: 169.254.169.254
   networkPolicy:
     enabled: false
     egress:
+    - ports:
+      - port: 53
+        protocol: UDP
     # Required egress is handled by other rules so it's safe to modify this
-      - to:
-          - ipBlock:
-              cidr: 0.0.0.0/0
-              except:
-                - 169.254.169.254/32
+    #  - to:
+    #      - ipBlock:
+    #          cidr: 0.0.0.0/0
+    #          except:
+    #            - 169.254.169.254/32
+
   extraLabels: {}
   extraEnv: {}
   lifecycleHooks:
