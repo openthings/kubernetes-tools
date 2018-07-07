@@ -120,6 +120,8 @@ auth:
   admin:
     access: true
     users:
+      - supermap
+      - openthings
   dummy:
     password:
   ldap:
@@ -154,7 +156,9 @@ singleuser:
     #            - 169.254.169.254/32
 
   extraLabels: {}
-  extraEnv: {}
+  #extraEnv: {}
+  extraEnv: 
+    GRANT_SUDO: yes
   lifecycleHooks:
   initContainers:
   nodeSelector: {}
