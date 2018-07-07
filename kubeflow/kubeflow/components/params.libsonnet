@@ -12,12 +12,12 @@
       jupyterNotebookPVCMount: "null",
       name: "kubeflow-core",
       namespace: "null",
-      reportUsage: true,
+      reportUsage: "false",
       tfAmbassadorServiceType: "ClusterIP",
       tfDefaultImage: "null",
       tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v20180329-a7511ff",
       tfJobUiServiceType: "ClusterIP",
-      usageId: "96243c2a-c78e-4d94-a9ea-10e474004f2c"
-    }
+      usageId: "unknown_cluster",
+    },
   }
 }

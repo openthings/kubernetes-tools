@@ -10,5 +10,5 @@ spec:
   hostPath:
     path: /srv/volumes/data-nfs-server-provisioner-0
   claimRef:
-    namespace: default
+    namespace: nfs
     name: data-nfs-server-nfs-server-provisioner-0
