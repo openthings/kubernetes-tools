@@ -1,8 +1,5 @@
 {
-  global: {
-    // User-defined global parameters; accessible to all component and environments, Ex:
-    // replicas: 4,
-  },
+  global: {},
   components: {
     // Component-level parameters, defined initially from 'ks prototype use ...'
     // Each object below should correspond to a component in the components/ directory
@@ -15,8 +12,8 @@
       disks: "null",
       jupyterHubAuthenticator: "null",
       jupyterHubImage: "gcr.io/kubeflow/jupyterhub-k8s:v20180531-3bb991b1",
-      jupyterHubServiceType: "ClusterIP",
-      jupyterNotebookPVCMount: "null",
+      jupyterHubServiceType: "NodePort",
+      jupyterNotebookPVCMount: "/home/jovyan",
       jupyterNotebookRegistry: "gcr.io",
       jupyterNotebookRepoName: "kubeflow-images-public",
       name: "kubeflow-core",
@@ -26,7 +23,19 @@
       tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v0.2.0",
       tfJobUiServiceType: "ClusterIP",
       tfJobVersion: "v1alpha2",
-      usageId: "unknown_cluster",
+      usageId: "unknown_cluster"
+    }
+    seldon: {
+      apifeImage: "seldonio/apife:0.1.6",
+      apifeServiceType: "NodePort",
+      engineImage: "seldonio/engine:0.1.6",
+      name: "seldon",
+      namespace: "null",
+      operatorImage: "seldonio/cluster-manager:0.1.6",
+      operatorJavaOpts: "null",
+      operatorSpringOpts: "null",
+      withApife: "false",
+      withRbac: "true",
     },
-  },
+  }
 }

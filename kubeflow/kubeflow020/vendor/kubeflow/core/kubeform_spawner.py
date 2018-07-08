@@ -103,8 +103,12 @@ repoName = os.environ.get('REPO_NAME')
 c.JupyterHub.spawner_class = KubeFormSpawner
 c.KubeSpawner.singleuser_image_spec = '{0}/{1}/tensorflow-notebook'.format(registry, repoName)
 
-c.KubeSpawner.cmd = 'start-singleuser.sh'
-c.KubeSpawner.args = ['--allow-root']
+#c.KubeSpawner.cmd = 'start-singleuser.sh'
+c.KubeSpawner.cmd = 'jupyter-labhub'
+
+#c.KubeSpawner.args = ['--allow-root']
+c.KubeSpawner.args = ['--allow-root','--NotebookApp.default_url=\"/lab\"']
+
 # gpu images are very large ~15GB. need a large timeout.
 c.KubeSpawner.start_timeout = 60 * 30
 # Increase timeout to 5 minutes to avoid HTTP 500 errors on JupyterHub
@@ -142,6 +146,27 @@ if pvc_mount and pvc_mount != 'null':
             'name': 'volume-{username}{servername}'
         }
     )
+
+#pvc_mount = False
+#if pvc_mount: # pvc_mount and pvc_mount != 'null':
+#    c.KubeSpawner.user_storage_pvc_ensure = True
+#    # How much disk space do we want?
+#    c.KubeSpawner.user_storage_capacity = '10Gi'
+#    c.KubeSpawner.pvc_name_template = 'claim-{username}{servername}'
+#    c.KubeSpawner.volumes = [
+#      {
+#        'name': 'volume-{username}{servername}',
+#        'persistentVolumeClaim': {
+#          'claimName': 'claim-{username}{servername}'
+#        }
+#      }
+#    ]
+#    c.KubeSpawner.volume_mounts = [
+#      {
+#        'mountPath': pvc_mount,
+#        'name': 'volume-{username}{servername}'
+#      }
+#    ]
 
 # ###################################################
 # ### Extra volumes for NVIDIA drivers (Azure)

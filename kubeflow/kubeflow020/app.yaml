@@ -14,6 +14,12 @@ libraries:
       refSpec: v0.2.0
     name: core
     registry: kubeflow
+  seldon:
+    gitVersion:
+      commitSha: 5a11c84deeba9ba57a28182e71437e4426e9f5f0
+      refSpec: master
+    name: seldon
+    registry: kubeflow
   tf-serving:
     gitVersion:
       commitSha: 178b151853082e8584bd38c10148e2a926843e1d
