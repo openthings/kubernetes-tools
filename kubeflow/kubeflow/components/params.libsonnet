@@ -8,7 +8,7 @@
       disks: "null",
       jupyterHubAuthenticator: "null",
       jupyterHubImage: "gcr.io/kubeflow/jupyterhub-k8s:1.0.1",
-      jupyterHubServiceType: "ClusterIP",
+      jupyterHubServiceType: "NodePort",
       jupyterNotebookPVCMount: "null",
       name: "kubeflow-core",
       namespace: "null",

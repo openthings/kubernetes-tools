@@ -87,9 +87,12 @@ c.JupyterHub.cleanup_servers = False
 ###################################################
 c.JupyterHub.spawner_class = KubeFormSpawner
 c.KubeSpawner.singleuser_image_spec = 'gcr.io/kubeflow/tensorflow-notebook'
-c.KubeSpawner.cmd = 'start-singleuser.sh'
-c.KubeSpawner.args = ['--allow-root']
-#c.KubeSpawner.args = ['--allow-root','NotebookApp.default_url=\"/lab\"']
+
+#c.KubeSpawner.cmd = 'start-singleuser.sh'
+c.KubeSpawner.cmd = 'jupyter-labhub'
+
+#c.KubeSpawner.args = ['--allow-root']
+c.KubeSpawner.args = ['--allow-root','--NotebookApp.default_url=\"/lab\"']
 
 # gpu images are very large ~15GB. need a large timeout.
 c.KubeSpawner.start_timeout = 60 * 30
