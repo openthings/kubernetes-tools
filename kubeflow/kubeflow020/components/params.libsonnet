@@ -24,8 +24,8 @@
       tfJobUiServiceType: "ClusterIP",
       tfJobVersion: "v1alpha2",
       usageId: "unknown_cluster"
-    }
-    seldon: {
+    },
+    "seldon": {
       apifeImage: "seldonio/apife:0.1.6",
       apifeServiceType: "NodePort",
       engineImage: "seldonio/engine:0.1.6",
