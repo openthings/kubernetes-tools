@@ -13,7 +13,7 @@ docker pull ${MY_REGISTRY}/kubeflow-images-public-tensorflow-1.8.0-notebook-gpu:
 ## Tag to original docker iamges name.
 docker tag ${MY_REGISTRY}/kubeflow-images-public-tensorflow-1.8.0-notebook-cpu:v20180619-c79194b3 gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-cpu:v20180619-c79194b3 
 
-docker tag ${MY_REGISTRY}/kubeflow-images-public/tensorflow-1.8.0-notebook-gpu:v20180619-c79194b3 gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-gpu:v20180619-c79194b3
+docker tag ${MY_REGISTRY}/kubeflow-images-public-tensorflow-1.8.0-notebook-gpu:v20180619-c79194b3 gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-gpu:v20180619-c79194b3
 
 echo ""
 echo "FINISHED."
