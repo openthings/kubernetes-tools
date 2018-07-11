@@ -103,11 +103,22 @@ repoName = os.environ.get('REPO_NAME')
 c.JupyterHub.spawner_class = KubeFormSpawner
 c.KubeSpawner.singleuser_image_spec = '{0}/{1}/tensorflow-notebook'.format(registry, repoName)
 
-#c.KubeSpawner.cmd = 'start-singleuser.sh'
-c.KubeSpawner.cmd = 'jupyter-labhub'
+c.KubeSpawner.cmd = 'start-singleuser.sh'
+#c.KubeSpawner.cmd = 'jupyter-labhub'
+
+c.KubeSpawner.environment = {'GRANT_SUDO':'yes'}
 
 #c.KubeSpawner.args = ['--allow-root']
-c.KubeSpawner.args = ['--allow-root','--NotebookApp.default_url=\"/lab\"']
+#c.KubeSpawner.args = ['--allow-root','--user root']
+#c.KubeSpawner.args = ['--allow-root','--user root','--NotebookApp.default_url=\"/lab\"']
+#c.KubeSpawner.args = ['--allow-root','--NotebookApp.default_url=\"/lab\"']
+c.KubeSpawner.args = ['--allow-root','--NotebookApp.password=\'sha1:ce069ad31874:b6f02f7aefae86fa04ba9fcc1e90d2e6f16e11e2\'','--NotebookApp.default_url=\"/lab\"']
+
+#from notebook.auth import passwd
+#passwd()
+#12345678
+#'sha1:ce069ad31874:b6f02f7aefae86fa04ba9fcc1e90d2e6f16e11e2'
+
 
 # gpu images are very large ~15GB. need a large timeout.
 c.KubeSpawner.start_timeout = 60 * 30
