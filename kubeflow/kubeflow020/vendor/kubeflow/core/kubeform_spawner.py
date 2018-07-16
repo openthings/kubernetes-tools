@@ -107,7 +107,7 @@ c.KubeSpawner.singleuser_image_spec = '{0}/{1}/tensorflow-notebook'.format(regis
 c.KubeSpawner.cmd = 'jupyter-labhub'
 
 #c.KubeSpawner.args = ['--allow-root']
-c.KubeSpawner.args = ['--allow-root','--NotebookApp.default_url=\"/lab\"']
+c.KubeSpawner.args = ['--allow-root','--user root','--NotebookApp.default_url=\"/lab\"']
 
 # gpu images are very large ~15GB. need a large timeout.
 c.KubeSpawner.start_timeout = 60 * 30
