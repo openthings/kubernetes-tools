@@ -1,0 +1,173 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-imanager
+spec:
+  storageClassName: pv-nfs-imanager
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/imanager/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-mysql
+spec:
+  storageClassName: pv-nfs-mysql
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/mysql/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-elasticsearch
+spec:
+  storageClassName: pv-nfs-elasticsearch
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/elasticsearch/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-kibana
+spec:
+  storageClassName: pv-nfs-kibana
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/kibana/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-prometheus
+spec:
+  storageClassName: pv-nfs-prometheus
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/prometheus/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    kind: imanager-base
+  name: pv-nfs-grafana
+spec:
+  storageClassName: pv-nfs-grafana
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /tmp/nfsData/grafana/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-imanager
+spec:
+  storageClassName: pv-nfs-imanager
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-mysql
+spec:
+  storageClassName: pv-nfs-mysql
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-elasticsearch
+spec:
+  storageClassName: pv-nfs-elasticsearch
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-kibana
+spec:
+  storageClassName: pv-nfs-kibana
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-prometheus
+spec:
+  storageClassName: pv-nfs-prometheus
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    kind: imanager-base
+  name: pvc-nfs-grafana
+spec:
+  storageClassName: pv-nfs-grafana
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
