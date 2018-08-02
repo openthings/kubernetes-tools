@@ -1,0 +1,767 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-server
+  labels:
+    type: icloud-native
+    kind: imanager-base
+spec:
+  clusterIP: 10.111.22.222
+  ports:
+    - port: 2049
+      targetPort: 2049
+  selector:
+    app: nfs-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  labels:
+    type: icloud-native
+    kind: imanager-base
+spec:
+  type: NodePort
+  ports:
+    - name: "9200" 
+      port: 9200
+      targetPort: 9200
+    - name: "9300"
+      port: 9300
+      targetPort: 9300
+  selector:
+    app: elasticsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  labels:
+    type: icloud-native
+    kind: imanager-base
+spec:
+  ports:
+    - port: 5601
+      targetPort: 5601
+      nodePort: 30003
+  selector:
+    app: kibana
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-dashboard
+spec:
+  ports:
+  - port: 9090
+    targetPort: 9090
+  selector:
+    app: k8s-dashboard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    prometheus.io/scrape: 'true'
+spec:
+  type: NodePort
+  ports:
+    - port: 9090
+      protocol: TCP
+      name: webui
+  selector:
+    app: prometheus
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  labels:
+    app: alertmanager
+    type: icloud-native
+    kind: imanager-base
+spec:
+  type: NodePort
+  ports:
+    - port: 9093
+      protocol: TCP
+  selector:
+    app: alertmanager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+    type: icloud-native
+    kind: imanager-base
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      nodePort: 32000
+  selector:
+    app: grafana
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    kind: imanager-base
+  name: k8s-dashboard
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: k8s-dashboard
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["create"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["kubernetes-dashboard-key-holder"]
+  verbs: ["get", "update", "delete"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["create"]  
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["kubernetes-dashboard-settings"]
+  verbs: ["get","update"] 
+- apiGroups: [""]
+  resources: ["services"]
+  resourceNames: ["heapster"]
+  verbs: ["proxy"]
+- apiGroups: [""]
+  resources: ["services/proxy"]
+  resourceNames: ["heapster","http:heapster","https:heapster"]
+  verbs: ["get"] 
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps","extensions"]
+  resources: ["replicasets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-dashboard
+  labels:
+    kind: imanager-base
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k8s-dashboard
+subjects:
+- kind: ServiceAccount
+  name: k8s-dashboard
+  namespace: default
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: prometheus
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: prometheus
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "nodes/proxy", "services", "endpoints", "pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get"]
+- apiGroups: ["extensions"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+rules:
+- apiGroups: [""]
+  resources: ["services", "namespaces", "endpoints"]
+  verbs: ["get"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: elasticsearch
+subjects:
+- kind: ServiceAccount
+  name: elasticsearch
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: elasticsearch
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-templates
+data:
+  wechat.tmpl: |
+   {{ define "wechat.imanager.message" }}{{ .CommonAnnotations.summary }}{{ end }}
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prometheus-config
+  labels:
+    kind: imanager-base
+data:
+  rules.yml: |
+    groups:
+    - name: node
+      rules:
+      - alert: server_status
+        expr: up{app="node-exporter"} == 0
+        for: 15s
+        annotations:
+          summary: "机器 {{ $labels.instance }} 挂了"
+      - alert: cpu_usage
+        expr: round( sum ( rate(container_cpu_usage_seconds_total{image!="",name=~"^k8s_.*"}[1m])) by (pod_name) *100,0.01) > 80
+        for: 15s
+        annotations:
+          summary: "容器 {{ $labels.pod_name }} cpu 使用率超过80%,当前值: {{ $value }}%"
+      - alert: memory_usage
+        expr: round( sum (container_memory_working_set_bytes{image!="",name=~"^k8s_.*"}) by (pod_name) /(1024*1024),0.01) > 800
+        for: 15s
+        annotations:
+          summary: "容器 {{ $labels.pod_name }} 内存占用超过800MB,当前值: {{ $value }}MB"
+      - alert: network_usage
+        expr: round( sum (rate (container_network_receive_bytes_total{image!="",name=~"^k8s_.*"}[1m])) by (pod_name) /1024,0.01) > 50
+        for: 15s
+        annotations:
+          summary: "容器 {{ $labels.pod_name }} 网络传输超过50K/s,当前值: {{ $value }}K/s"
+  prometheus.yml: |
+    global:
+      scrape_interval: 10s
+      scrape_timeout: 10s
+      evaluation_interval: 10s
+    alerting:
+      alertmanagers:
+       - static_configs:
+         - targets:
+           - alertmanager:9093
+    rule_files:
+     - "rules.yml"
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['localhost:9090']
+      - job_name: 'kubernetes-apiservers'
+        kubernetes_sd_configs:
+        - role: endpoints
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+          action: keep
+          regex: default;kubernetes;https
+      - job_name: 'kubernetes-nodes'
+        kubernetes_sd_configs:
+        - role: node
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+        - action: labelmap
+          regex: __meta_kubernetes_node_label_(.+)
+        - target_label: __address__
+          replacement: kubernetes.default.svc:443
+        - source_labels: [__meta_kubernetes_node_name]
+          regex: (.+)
+          target_label: __metrics_path__
+          replacement: /api/v1/nodes/${1}/proxy/metrics
+      - job_name: 'kubernetes-cadvisor'
+        kubernetes_sd_configs:
+        - role: node
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+        - action: labelmap
+          regex: __meta_kubernetes_node_label_(.+)
+        - target_label: __address__
+          replacement: kubernetes.default.svc:443
+        - source_labels: [__meta_kubernetes_node_name]
+          regex: (.+)
+          target_label: __metrics_path__
+          replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+      - job_name: 'kubernetes-endpoints'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            target_label: __address__
+            regex: (.+)(?::\d+);(\d+)
+            replacement: $1:$2
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            action: replace
+            target_label: kubernetes_name
+      - job_name: 'kubernetes-services'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+            action: keep
+            regex: true
+          - source_labels: [__address__]
+            target_label: __param_target
+          - target_label: __address__
+            replacement: blackbox
+          - source_labels: [__param_target]
+            target_label: instance
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: kubernetes_name
+      - job_name: 'kubernetes-ingresses'
+        kubernetes_sd_configs:
+        - role: ingress
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_ingress_annotation_prometheus_io_probe]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_ingress_scheme,__address__,__meta_kubernetes_ingress_path]
+          regex: (.+);(.+);(.+)
+          replacement: ${1}://${2}${3}
+          target_label: __param_target
+        - target_label: __address__
+          replacement: blackbox-exporter.example.com:9115
+        - source_labels: [__param_target]
+          target_label: instance
+        - action: labelmap
+          regex: __meta_kubernetes_ingress_label_(.+)
+        - source_labels: [__meta_kubernetes_namespace]
+          target_label: kubernetes_namespace
+        - source_labels: [__meta_kubernetes_ingress_name]
+          target_label: kubernetes_name
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: (.+):(?:\d+);(\d+)
+            replacement: ${1}:${2}
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: 9\d{3}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: nfs-server
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    scale: unscalable
+  name: nfs-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+    spec:
+      containers:
+        - image: registry.cn-beijing.aliyuncs.com/supermap/nfs-data
+          name: nfs-server
+          imagePullPolicy: IfNotPresent
+          ports:
+           - containerPort: 2049
+          securityContext:
+            privileged: true
+          volumeMounts:
+          - mountPath: /mnt/data
+            name: nfs-data-volume
+      volumes:
+      - name: nfs-data-volume
+        hostPath: 
+            path: /tmp/nfsData
+      tolerations: 
+        - key: node-role.kubernetes.io/node1
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata: 
+  labels:
+    app: elasticsearch
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    scale: unscalable
+  name: elasticsearch
+spec:
+  replicas: 1
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      serviceAccountName: elasticsearch
+      containers:
+       - env:
+         - name: "NAMESPACE"
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.namespace
+         - name: "MINIMUM_MASTER_NODES"
+           value: "1"
+         - name: "cluster.name"
+           value: "kubernetes-logging"
+         - name: "xpack.security.enabled"
+           value: "false"
+         - name: "xpack.monitoring.enabled"
+           value: "false"
+         - name: "xpack.graph.enabled"
+           value: "false"
+         - name: "xpack.watcher.enabled"
+           value: "false"
+         - name: "bootstrap.memory_lock"
+           value: "false"
+         - name: "bootstrap.system_call_filter"
+           value: "false"
+         image: registry.cn-beijing.aliyuncs.com/supermap/elasticsearch:v5.6.4
+         name: elasticsearch
+         imagePullPolicy: IfNotPresent
+         volumeMounts:
+           - name: elastic-data
+             mountPath: data
+         resources:
+           limits:
+             cpu: 1000m
+             memory: 1800M
+         ports:
+          - containerPort: 9200
+          - containerPort: 9300
+      restartPolicy: Always
+      volumes:
+       - name: elastic-data
+         persistentVolumeClaim: 
+           claimName: pvc-nfs-elasticsearch
+      initContainers:
+       - image: registry.cn-beijing.aliyuncs.com/supermap/alpine:3.7
+         imagePullPolicy: IfNotPresent
+         command: ["/sbin/sysctl", "-w", "vm.max_map_count=262144"]
+         name: elasticsearch-init
+         securityContext:
+           privileged: true
+      tolerations: 
+        - key: node-role.kubernetes.io/node2
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata: 
+  labels:
+    app: kibana
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    scale: unscalable
+  name: kibana
+spec:
+  replicas: 1
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+        - env:
+          - name: ELASTICSEARCH_URL
+            value: http://elasticsearch:9200
+          image: registry.cn-beijing.aliyuncs.com/supermap/kibana:5.6.4
+          name: kibana
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 500m
+              memory: 800M
+          volumeMounts:
+           - mountPath: /usr/share/kibana/data
+             name: kibana-data
+          ports:
+           - containerPort: 5601
+      restartPolicy: Always
+      volumes:
+       - name: kibana-data
+         persistentVolumeClaim: 
+           claimName: pvc-nfs-kibana
+      tolerations: 
+        - key: node-role.kubernetes.io/node1
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    scale: unscalable
+    console: noconsole
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus
+      containers:
+      - name: prometheus
+        image: registry.cn-beijing.aliyuncs.com/supermap/prometheus:v2.2.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: webui
+          containerPort: 9090
+        resources:
+          requests:
+            cpu: 300m
+            memory: 700M
+          limits:
+            cpu: 300m
+            memory: 700M
+        volumeMounts:
+        - name: data-volume
+          mountPath: /prometheus
+        - name: config-volume
+          mountPath: /etc/prometheus
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim: 
+          claimName: pvc-nfs-prometheus
+      - name: config-volume
+        configMap:
+          name: prometheus-config
+      tolerations: 
+        - key: node-role.kubernetes.io/node1
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alertmanager
+  labels:
+    app: alertmanager
+    type: icloud-native
+    kind: imanager-base
+  annotations:
+    scale: unscalable
+    console: noconsole
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: registry.cn-beijing.aliyuncs.com/supermap/alertmanager:v0.14.0
+        ports:
+        - containerPort: 9093
+          protocol: TCP
+        volumeMounts:
+        - name: alertmanager-config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager-templates-volume
+          mountPath: /etc/alertmanager/templates
+      volumes:
+      - name: alertmanager-config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager-templates-volume
+        configMap:
+          name: alertmanager-templates
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana
+  annotations:
+    scale: unscalable
+  labels:
+    app: grafana
+    type: icloud-native
+    kind: imanager-base
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - image: registry.cn-beijing.aliyuncs.com/supermap/grafana-imanager:latest
+        name: grafana
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          # The following env variables set up basic auth twith the default admin user and admin password.
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "false"
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: "true"
+          - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+            value: Admin
+          # does not really work, because of template variables in exported dashboards:
+          # - name: GF_DASHBOARDS_JSON_ENABLED
+          #   value: "true"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        volumeMounts:
+        - name: grafana-persistent-storage
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: grafana-persistent-storage
+        persistentVolumeClaim: 
+         claimName: pvc-nfs-grafana
+      tolerations: 
+        - key: node-role.kubernetes.io/node1
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s-dashboard
+    kind: imanager-base
+  name: k8s-dashboard
+  annotations:
+    scale: unscalable
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: k8s-dashboard
+    spec:
+      containers:
+        - image: registry.cn-beijing.aliyuncs.com/supermap/k8s_dashboard-imanager
+          name: k8s-dashboard
+          imagePullPolicy: Always
+          ports:
+           - containerPort: 9090
+             protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9090
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+      restartPolicy: Always
+      serviceAccountName: k8s-dashboard

@@ -1,0 +1,12 @@
+supermap/icloud_registry
+supermap/iserver_gateway
+supermap/iserver_config
+supermap/iserver_dashboard
+supermap/iserver_dashboard_backend
+supermap/iserver_gisapplication
+supermap/iserver_servicelist
+supermap/imanager_dashboard
+supermap/imanager_dashboard_backend
+supermap/imanager_weixin_hook
+supermap/iserver_ispeco:900
+supermap/iportal_ispeco:900

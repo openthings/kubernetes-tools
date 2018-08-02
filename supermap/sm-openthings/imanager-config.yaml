@@ -1,0 +1,47 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: imanager-config
+data:
+  k8s.master.url: "https://192.168.199.230:6443"
+  kibana.url: "http://192.168.199.230:30003"
+  kibana.port: "30003"
+  access.entry.ip: 192.168.199.230
+  image.pull.policy: IfNotPresent
+  grafana.service.name: grafana
+  gateway.service.name: iserver-gateway
+  registry: registry.cn-beijing.aliyuncs.com
+  gis.application.limit.cpu: "2"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kubernetes-dashboard-token
+  labels:
+    kind: imanager-base
+data:
+  token: ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSnJkV0psTFhONWMzUmxiU0lzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVmpjbVYwTG01aGJXVWlPaUpyZFdKbGNtNWxkR1Z6TFdSaGMyaGliMkZ5WkMxMGIydGxiaTFzZW1aNk55SXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMbTVoYldVaU9pSnJkV0psY201bGRHVnpMV1JoYzJoaWIyRnlaQ0lzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVnlkbWxqWlMxaFkyTnZkVzUwTG5WcFpDSTZJbVEwT1RVMlpUUXdMVGd4WlRBdE1URmxPQzA0WkRRNUxURTRNekZpWm1JMFpUQXpOaUlzSW5OMVlpSTZJbk41YzNSbGJUcHpaWEoyYVdObFlXTmpiM1Z1ZERwcmRXSmxMWE41YzNSbGJUcHJkV0psY201bGRHVnpMV1JoYzJoaWIyRnlaQ0o5LmFvSS04QjhuR1p4MWtPLURUVUZmVHRqVGFUdUljR3h1OVl1czlmTWQ0b3F4ak1OUWdrMDFkRmVjclA0V3pCU2plU2w4Nkl2cDhRNk1lMllrR19qRWgxUEEzR1lZRGJlbzItR1dMT21nNzg0RW5CcnNENWJGc0tTYkFCbW50bXpiMXBJbG9KZkJBX09UVHZxc2lrekppRHdjOGFpUU5VaDdEaGhoVG55YlNfNzM2SHRuVVNqN0ZpYUZmblIzNjE2MllQbXlmS3BZcm9YcThBT1ptRllLNEtFWXhsNDVLNy1ZTzE0M3EzRGhXRml1WGd5NWc5Z0x2MzlRTmtlODlJWlpfQmxkVkQ5cmRmX0xoajh3NlRpbE1MVkd0cWpZV2s0SGdnUDhDYXNia3dRMjlXd0VsdU9hNWVwYU9jVHljS3RjUkRvVWNhZHBucFczNng0U0ZTT1ZKUQ==
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+data:
+  config.yml: |
+   route:
+    group_by: ['alertname']
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h
+    receiver: 'wechat'
+   receivers:
+   - name: 'wechat'
+     wechat_configs:
+      - corp_id: 'ww87015933668aaa18'
+        to_party: '1'
+        agent_id: '1000002'
+        api_secret: 'w_sxF80QHT3qJ2y3whmcBqYkwim6Vqw-N2L-_axb04w'
+        message: '{{ template "wechat.imanager.message" . }}'
+   templates:
+     - 'templates/*.tmpl'
+
