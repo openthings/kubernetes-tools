@@ -49,5 +49,5 @@ kubectl apply -f ./imanager-metrics-server.yaml -n kube-system
 kubectl apply -f ./imanager-appset-nfs-storageClass.yaml -n $namespace
 kubectl apply -f ./imanager-import-grafana-dashboards.yaml -n $namespace
 kubectl apply -f ./imanager-mysql.yaml -n $namespace
-kubectl apply -f ./imanager.yaml -n $supermap
+kubectl apply -f ./imanager.yaml -n $namespace
 kubectl apply -f ./imanager-weixin-hook.yaml -n $namespace
