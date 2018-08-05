@@ -37,7 +37,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    namespace: default
+    namespace: supermap
 roleRef:
   kind: ClusterRole
   name: nfs-client-provisioner-runner

@@ -22,8 +22,8 @@ c)告警配置：（ConfigMap:alertmanager-config）
 
 	配置自己的企业微信或其他接收告警的信息
 
-2.运行startup.sh
-或者 startup.sh --volumePath /var/lib/docker/nfsData(数据存储目录，可自己指定)
+2.运行startup.sh    (默认namespace是supermap,数据存储目录默认是/tmp/nfsData)
+或者 startup.sh --namespace supermap --volumePath /var/lib/docker/nfsData(数据存储目录，可自己指定)
  
 ---------------------
 

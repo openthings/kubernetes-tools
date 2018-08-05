@@ -1,2 +1,2 @@
 #bin/sh
-kubectl delete -f ./
+kubectl delete -f ./ -n supermap

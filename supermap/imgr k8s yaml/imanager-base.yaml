@@ -667,6 +667,8 @@ spec:
           mountPath: /etc/alertmanager
         - name: alertmanager-templates-volume
           mountPath: /etc/alertmanager/templates
+        - name: localtime-volume
+          mountPath: /etc/localtime
       volumes:
       - name: alertmanager-config-volume
         configMap:
@@ -674,6 +676,9 @@ spec:
       - name: alertmanager-templates-volume
         configMap:
           name: alertmanager-templates
+      - name: localtime-volume
+        hostPath:
+          path: /etc/localtime
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: imanager-weixin-config
 data:
-  weixin.token: DRy5yJ65WRwz7y6Ppn4Xo
+  weixin.token: QMWCkr9nXZ
   weixin.corp.id: ww87015933668aaa18
   weixin.encoding.aes.key: nKc3vVipxbkcB4iOHc9uhLVC5bO5slOhTAfMueooK7h
 ---
@@ -13,11 +13,12 @@ metadata:
   name: imanager-weixin-hook
   labels:
     type: imanager
+    kind: imanager-base
 spec:
   ports:
     - port: 8970
       targetPort: 8970
-      nodePort: 31111
+      nodePort: 31112
   selector:
     app: imanager-weixin-hook
   type: NodePort
@@ -28,6 +29,7 @@ metadata:
   labels:
     app: imanager-weixin-hook
     type: imanager
+    kind: imanager-base
   name: imanager-weixin-hook
 spec:
   replicas: 1
@@ -41,7 +43,7 @@ spec:
       containers:
         - env:
           - name: IMANAGER_API_URL
-            value: http://imanager-dashboard-backend:8980
+            value: http://imanager-dashboard-backend:8980/imanager/dashboard/web/api
           - name: TOKEN
             valueFrom:
               configMapKeyRef:
