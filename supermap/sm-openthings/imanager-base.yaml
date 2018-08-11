@@ -167,7 +167,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: k8s-dashboard
-  namespace: default
+  namespace: supermap
 ---
 kind: ServiceAccount
 apiVersion: v1
@@ -202,7 +202,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: prometheus
-  namespace: default
+  namespace: supermap
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -229,7 +229,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: elasticsearch
-  namespace: default
+  namespace: supermap
 roleRef:
   kind: ClusterRole
   name: elasticsearch
@@ -465,7 +465,7 @@ spec:
       volumes:
       - name: nfs-data-volume
         hostPath: 
-            path: /tmp/nfsData
+            path: /var/lib/docker/nfsData
       tolerations: 
         - key: node-role.kubernetes.io/node1
           operator: Exists
@@ -741,6 +741,7 @@ metadata:
   name: k8s-dashboard
   annotations:
     scale: unscalable
+    console: noconsole
 spec:
   replicas: 1
   strategy:

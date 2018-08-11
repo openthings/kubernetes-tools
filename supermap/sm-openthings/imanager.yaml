@@ -26,6 +26,37 @@ spec:
   selector:
     app: imanager-dashboard-backend
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    kind: imanager-base
+  name: imanager-dashboard-backend
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: imanager-dashboard-backend
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: imanager-dashboard-backend
+  labels:
+    kind: imanager-base
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: imanager-dashboard-backend
+subjects:
+- kind: ServiceAccount
+  name: imanager-dashboard-backend
+  namespace: supermap
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -49,7 +80,9 @@ spec:
           - name: K8S_DASHBOARD_URL
             value: http://k8s-dashboard:9090
           - name: K8S_NAMESPACE
-            value: default
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
           - name: SERVICE_LABELS
             value: kind=imanager-base
           - name: KIBANA_URL
@@ -136,16 +169,13 @@ spec:
               configMapKeyRef:
                  name: imanager-config
                  key: k8s.master.url
-          - name: K8S_TOKEN
-            valueFrom:
-              secretKeyRef:
-                 name: kubernetes-dashboard-token
-                 key: token
           - name: GIS_APP_LIMIT_CPU
             valueFrom:
               configMapKeyRef:
                  name: imanager-config
                  key: gis.application.limit.cpu
+          - name: ALERT_MANAGER_URL
+            value: http://alertmanager:9093/api/v1
           image: registry.cn-beijing.aliyuncs.com/supermap/imanager_dashboard_backend
           name: imanager-dashboard-backend
           imagePullPolicy: Always
@@ -155,6 +185,7 @@ spec:
           ports:
            - containerPort: 8980
       restartPolicy: Always
+      serviceAccountName: imanager-dashboard-backend
       volumes:
        - name: imanager-volume
          persistentVolumeClaim: 

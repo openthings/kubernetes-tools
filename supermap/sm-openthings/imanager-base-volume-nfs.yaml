@@ -43,7 +43,7 @@ spec:
       volumes:
       - name: nfs-data-volume
         hostPath: 
-            path: /tmp/nfsData
+            path: /var/lib/docker/nfsData
       tolerations: 
         - key: node-role.kubernetes.io/node1
           operator: Exists

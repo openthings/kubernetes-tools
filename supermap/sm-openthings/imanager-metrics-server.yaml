@@ -109,6 +109,9 @@ spec:
         command:
         - /metrics-server
         - --source=kubernetes.summary_api:''
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
 ---
 apiVersion: apiregistration.k8s.io/v1beta1
 kind: APIService

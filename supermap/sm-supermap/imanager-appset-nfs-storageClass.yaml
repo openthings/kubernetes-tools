@@ -74,14 +74,15 @@ spec:
             - name: PROVISIONER_NAME
               value: appset-nfs-provisioner
             - name: NFS_SERVER
-              value: 10.111.22.222
+              #value: 10.111.22.222
+	      value: 192.168.199.230
             - name: NFS_PATH
               value: /appset
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 10.111.22.222
-            path: /appset
+            server: 192.168.199.230
+            path: /home/openthings/nfsdata/appset
 ---
 apiVersion: storage.k8s.io/v1beta1
 kind: StorageClass

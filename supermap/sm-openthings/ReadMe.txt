@@ -14,16 +14,12 @@ a)iManager相关配置：（ConfigMap:imanager-config）
   	registry: registry.cn-beijing.aliyuncs.com		#镜像仓库地址
   	gis.application.limit.cpu: "1"					#微服务中gisApplication容器的cpu限制
 
-b)k8s Token配置：（Secret:kubernetes-dashboard-token）
-
-	token:填写自己k8s环境的token
-
-c)告警配置：（ConfigMap:alertmanager-config）
+b)告警配置：（ConfigMap:alertmanager-config）
 
 	配置自己的企业微信或其他接收告警的信息
 
-2.运行startup.sh
-或者 startup.sh --volumePath /var/lib/docker/nfsData(数据存储目录，可自己指定)
+2.运行startup.sh    (默认namespace是supermap,数据存储目录默认是/tmp/nfsData)
+或者 startup.sh --namespace supermap --volumePath /var/lib/docker/nfsData(数据存储目录，可自己指定)
  
 ---------------------
 

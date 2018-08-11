@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/imanager/data
+    path: /var/lib/docker/nfsData/imanager/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -26,7 +26,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/mysql/data
+    path: /var/lib/docker/nfsData/mysql/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -41,7 +41,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/elasticsearch/data
+    path: /var/lib/docker/nfsData/elasticsearch/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -56,7 +56,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/kibana/data
+    path: /var/lib/docker/nfsData/kibana/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -71,7 +71,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/prometheus/data
+    path: /var/lib/docker/nfsData/prometheus/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -86,7 +86,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /tmp/nfsData/grafana/data
+    path: /var/lib/docker/nfsData/grafana/data
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

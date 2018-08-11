@@ -101,7 +101,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-state-metrics
-  namespace: default
+  namespace: supermap
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -129,7 +129,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-state-metrics
-  namespace: default
+  namespace: supermap
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -138,6 +138,9 @@ metadata:
     app: kube-state-metrics
     kind: imanager-base
   name: kube-state-metrics
+  annotations:
+    scale: unscalable
+    console: noconsole
 spec:
   replicas: 1
   template:

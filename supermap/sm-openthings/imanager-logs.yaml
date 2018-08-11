@@ -21,7 +21,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: fluentd-es
-  namespace: default
+  namespace: supermap
 roleRef:
   kind: ClusterRole
   name: fluentd-es
