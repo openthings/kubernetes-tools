@@ -39,7 +39,7 @@ persistence:
   storageClass: ""
   #storageClass: "nfs"
   accessMode: ReadWriteOnce
-  size: 200Gi
+  size: 20Gi
 
 ## For creating the StorageClass automatically:
 storageClass:
@@ -74,7 +74,7 @@ resources: {}
 
 #nodeSelector: {}
 nodeSelector:
-      kubernetes.io/hostname: openthings
+      kubernetes.io/hostname: userver
 
 tolerations: []
 
