@@ -54,7 +54,7 @@ docker push ${MY_REGISTRY}/k8s-gcr-io-coredns:1.1.3
 
 echo ""
 echo "=========================================================="
-echo "Push Kubernetes 1.11.1 Images FINISHED."
+echo "Push Kubernetes 1.11.2 Images FINISHED."
 echo "into registry.cn-hangzhou.aliyuncs.com/openthings, "
 echo "           by openthings@https://my.oschina.net/u/2306127."
 echo "=========================================================="
