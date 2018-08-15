@@ -1,0 +1,192 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: imanager-dashboard
+  labels:
+    type: imanager
+spec:
+  ports:
+    - port: 8990
+      targetPort: 8990
+      nodePort: 31100
+  selector:
+    app: imanager-dashboard
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imanager-dashboard-backend
+  labels:
+    type: imanager
+spec:
+  ports:
+  - port: 8980
+    targetPort: 8980
+  selector:
+    app: imanager-dashboard-backend
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    kind: imanager-base
+  name: imanager-dashboard-backend
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: imanager-dashboard-backend
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: imanager-dashboard-backend
+  labels:
+    kind: imanager-base
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: imanager-dashboard-backend
+subjects:
+- kind: ServiceAccount
+  name: imanager-dashboard-backend
+  namespace: supermap
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: imanager-dashboard
+    type: imanager
+  name: imanager-dashboard
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: imanager-dashboard
+    spec:
+      containers:
+        - env:
+          - name: DASHBOARD_BACKEND_URL
+            value: http://imanager-dashboard-backend:8980
+          - name: K8S_DASHBOARD_URL
+            value: http://k8s-dashboard:9090
+          - name: K8S_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: SERVICE_LABELS
+            value: kind=imanager-base
+          - name: KIBANA_URL
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: kibana.url
+          image: registry.cn-beijing.aliyuncs.com/supermap/imanager_dashboard
+          name: imanager-dashboard
+          imagePullPolicy: Always
+          ports:
+           - containerPort: 8990
+          readinessProbe:
+              tcpSocket:
+                port: 8990
+              initialDelaySeconds: 5
+              periodSeconds: 2
+      restartPolicy: Always
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: imanager-dashboard-backend
+    type: imanager
+  name: imanager-dashboard-backend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: imanager-dashboard-backend
+    spec:
+      containers:
+        - env:
+          - name: spring_datasource_url
+            value: jdbc:mysql://imanager-mysql:3306/imanager?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8
+          - name: spring_datasource_username
+            value: supermap
+          - name: spring_datasource_password
+            value: supermap
+          - name: CONFIG_PATH
+            value: /etc/icloud/dashboard/backend/config
+          - name: REGISTRY_URL
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: registry
+          - name: "NAMESPACE"
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: SERVICE_IP
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: access.entry.ip
+          - name: SERVICE_PROTOCOL
+            value: http
+          - name: IMAGE_PULL_POLICY
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: image.pull.policy
+          - name: GRAFANA_SERVICE
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: grafana.service.name
+          - name: GATEWAY_SERVICE
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: gateway.service.name
+          - name: KIBANA_PORT
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: kibana.port
+          - name: K8S_MASTER_URL
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: k8s.master.url
+          - name: GIS_APP_LIMIT_CPU
+            valueFrom:
+              configMapKeyRef:
+                 name: imanager-config
+                 key: gis.application.limit.cpu
+          - name: ALERT_MANAGER_URL
+            value: http://alertmanager:9093/api/v1
+          image: registry.cn-beijing.aliyuncs.com/supermap/imanager_dashboard_backend
+          name: imanager-dashboard-backend
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: imanager-volume
+              mountPath: /etc/icloud/dashboard/backend/config
+          ports:
+           - containerPort: 8980
+      restartPolicy: Always
+      serviceAccountName: imanager-dashboard-backend
+      volumes:
+       - name: imanager-volume
+         persistentVolumeClaim: 
+           claimName: pvc-nfs-imanager
