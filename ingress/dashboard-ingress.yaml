@@ -9,10 +9,10 @@ spec:
     - localhost
     secretName: k8s-dashboard-secret
   rules:
-  - host: localhost
+  - host: mydashboard.com
     http:
       paths:
       - backend:
           serviceName: kubernetes-dashboard
-          servicePort: 80
+          servicePort: 30088
         path: /
