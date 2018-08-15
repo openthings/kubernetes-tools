@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zrear-deploy
+  labels:
+    app: zrear
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zrear
+  template:
+    metadata:
+      labels:
+        app: zrear
+    spec:
+      containers:
+      - name: zrear
+        image: zrear-x:latest
+        ports:
+        - containerPort: 9999
+        imagePullPolicy: "IfNotPresent"

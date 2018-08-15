@@ -1,0 +1,37 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: imanager-config
+data:
+  k8s.master.url: https://192.168.199.201:6443
+  kibana.url: http://192.168.199.201:30003
+  kibana.port: "30003"
+  access.entry.ip: 192.168.199.201
+  image.pull.policy: IfNotPresent
+  grafana.service.name: grafana
+  gateway.service.name: iserver-gateway
+  registry: registry.cn-beijing.aliyuncs.com
+  gis.application.limit.cpu: "2"
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+data:
+  config.yml: |
+   route:
+    group_by: ['alertname']
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h
+    receiver: 'wechat'
+   receivers:
+   - name: 'wechat'
+     wechat_configs:
+      - corp_id: 'ww87015933668aaa18'
+        to_party: '1'
+        agent_id: '1000002'
+        api_secret: 'w_sxF80QHT3qJ2y3whmcBqYkwim6Vqw-N2L-_axb04w'
+        message: '{{ template "wechat.imanager.message" . }}'
+   templates:
+     - 'templates/*.tmpl'

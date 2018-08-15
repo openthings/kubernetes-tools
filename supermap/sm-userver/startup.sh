@@ -20,6 +20,7 @@ mkdir -p kibana/data
 mkdir -p prometheus/data
 mkdir -p grafana/data
 mkdir -p appset
+
 chmod 777 -R $volumePath
 
 cd $Current_DIR
