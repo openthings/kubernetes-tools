@@ -1,0 +1,16 @@
+serviceType: ClusterIP
+ghostHost: ghost.test.akomljen.com
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - ghost.test.akomljen.com
+  tls:
+   - secretName: test-app-tls
+     hosts:
+       - ghost.test.akomljen.com
+mariadb:
+  replication:
+    enabled: true
