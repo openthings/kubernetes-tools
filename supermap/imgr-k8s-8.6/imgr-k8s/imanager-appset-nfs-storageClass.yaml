@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    type: storage-class
+    kind: imanager-base
+  name: nfs-client-provisioner
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    type: storage-class
+    kind: imanager-base
+  name: nfs-client-provisioner-runner
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["list", "watch", "create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    type: storage-class
+    kind: imanager-base
+  name: run-nfs-client-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: nfs-client-provisioner
+    namespace: supermap
+roleRef:
+  kind: ClusterRole
+  name: nfs-client-provisioner-runner
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    type: storage-class
+    kind: imanager-base
+  name: nfs-client-provisioner
+  annotations:
+    scale: unscalable
+    console: noconsole
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccount: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: registry.cn-beijing.aliyuncs.com/supermap/nfs-client-provisioner:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: appset-nfs-provisioner
+            - name: NFS_SERVER
+              value: 10.111.22.222
+            - name: NFS_PATH
+              value: /appset
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 10.111.22.222
+            path: /appset
+---
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  labels:
+    type: storage-class
+    kind: imanager-base
+  name: appset-nfs-storage-class
+provisioner: appset-nfs-provisioner
