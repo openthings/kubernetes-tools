@@ -1,0 +1,4 @@
+proxy:
+  secretToken:"6f1938382f3c5590fa18f406c3bb038efe99f8c1137b48291a6673513bd61877"
+rbac:
+   enabled: false

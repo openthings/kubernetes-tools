@@ -1,0 +1,6 @@
+registry:
+  enabled: true
+  prefix: openthings/databook
+  host: https://registry.hub.docker.com
+  authHost: https://index.docker.io/v1
+  authTokenUrl: https://auth.docker.io/token?service=registry.docker.io

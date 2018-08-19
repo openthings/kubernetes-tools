@@ -1,0 +1,28 @@
+Name:         dashboard-token-4gqvq
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name=dashboard
+              kubernetes.io/service-account.uid=7cea687b-81e2-11e8-8d49-1831bfb4e036
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtdG9rZW4tNGdxdnEiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiN2NlYTY4N2ItODFlMi0xMWU4LThkNDktMTgzMWJmYjRlMDM2Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZCJ9.OcoVpC9jj-J6McB91mQW4OPkWGUdVFic_qjAUU1p6H6WEJE_trvEbPmc5xbE1PHaUI2udqs1GaA6-VnbJ4Q1S0UMgkB75m9a5lvZf9W08Fo3nqpAa9lnD1OXwy7LL5nahTEwXr9HQGQvvZzpgH82wkf1iud2ieRnHjiNw6QASTjzUFZmfG_uwtpA9u6TeSoJmIFCXYpdGpMeUgLWLnwy33diL-hjst55986ah-cIBv7zMivDRoPFK9b-7-rF45tQGpu0AULLIrzzLs67qLU_EAPc-168E2ZubpCtgxfzsLbqx5dsPweDBDHFGuLHt9JNSTPHAx2MBoldSW8Tw3_f3Q
+
+
+Name:         kubernetes-dashboard-token-lzfz7
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name=kubernetes-dashboard
+              kubernetes.io/service-account.uid=d4956e40-81e0-11e8-8d49-1831bfb4e036
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZC10b2tlbi1semZ6NyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImQ0OTU2ZTQwLTgxZTAtMTFlOC04ZDQ5LTE4MzFiZmI0ZTAzNiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTprdWJlcm5ldGVzLWRhc2hib2FyZCJ9.aoI-8B8nGZx1kO-DTUFfTtjTaTuIcGxu9Yus9fMd4oqxjMNQgk01dFecrP4WzBSjeSl86Ivp8Q6Me2YkG_jEh1PA3GYYDbeo2-GWLOmg784EnBrsD5bFsKSbABmntmzb1pIloJfBA_OTTvqsikzJiDwc8aiQNUh7DhhhTnybS_736HtnUSj7FiaFfnR36162YPmyfKpYroXq8AOZmFYK4KEYxl45K7-YO143q3DhWFiuXgy5g9gLv39QNke89IZZ_BldVD9rdf_Lhj8w6TilMLVGtqjYWk4HggP8CasbkwQ29WwEluOa5epaOcTycKtcRDoUcadpnpW36x4SFSOVJQ
