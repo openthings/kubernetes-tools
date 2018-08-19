@@ -22,8 +22,8 @@ docker tag jupyterhub/k8s-singleuser-sample:c7f70f9 ${MY_REGISTRY}/jupyterhub-k8
 docker push ${MY_REGISTRY}/jupyterhub-k8s-singleuser-sample:c7f70f9
 
 ###3
-docker tag quay.io/kubernetes-ingress-controller/nginx-ingress-controller ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller
-docker push  ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller
+docker tag quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.18.0 ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller:0.18.0
+docker push  ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller:0.18.0
 
 docker tag jetstack/kube-lego:latest ${MY_REGISTRY}/jetstack-kube-lego:latest
 docker push ${MY_REGISTRY}/jetstack-kube-lego:latest

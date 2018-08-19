@@ -22,8 +22,8 @@ docker pull ${MY_REGISTRY}/jupyterhub-k8s-singleuser-sample:c7f70f9
 docker tag ${MY_REGISTRY}/jupyterhub-k8s-singleuser-sample:c7f70f9 jupyterhub/k8s-singleuser-sample:c7f70f9
 
 ###2
-docker pull  ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller
-docker tag ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller quay.io/kubernetes-ingress-controller/nginx-ingress-controller
+docker pull  ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller:0.18.0
+docker tag ${MY_REGISTRY}/quay-io-kubernetes-ingress-controller-nginx-ingress-controller:0.18.0 quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.18.0
 
 docker pull ${MY_REGISTRY}/jetstack-kube-lego:latest
 docker tag ${MY_REGISTRY}/jetstack-kube-lego:latest jetstack/kube-lego:latest
