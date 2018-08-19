@@ -1,0 +1,1 @@
+kubeadm join 192.168.199.249:6443 --token urm22b.a0yic57jkc5kw35s --discovery-token-ca-cert-hash sha256:41e474888938304b15d4f8a883ead8173d2d7a84cf7665cb781f62dd7be13ba4

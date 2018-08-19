@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tls-test
+#issue:https://github.com/kubernetes/ingress-nginx/issues/2460
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+spec:
+  tls:
+  - secretName: k8s-dashboard-secret
+  backend:
+    serviceName: kubernetes-dashboard
+    servicePort: 443

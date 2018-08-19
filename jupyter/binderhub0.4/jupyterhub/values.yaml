@@ -1,0 +1,109 @@
+hub:
+  service:
+    type: ClusterIP
+  baseUrl: "/"
+#  cookieSecret: null
+  cookieSecret: 0695ea3a07c0bf1cd090ce8ba220cdd215125418fe24e7edeec11b9f2c7c153b594f3e8f3b80ae1cdc55698c46d8bfca9dac11b2dcc58b071d5a3743597a9814
+  publicURL: null
+  db:
+    type: sqlite-pvc
+    pvc:
+      annotations: {}
+      selector: {}
+      accessModes:
+        - ReadWriteOnce
+      storage: 1Gi
+      subPath: null
+    url: null
+  labels: null
+  extraConfig: null
+  image:
+    name: jupyterhub/k8s-hub
+    tag: v0.4
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 512Mi
+
+proxy:
+#  secretToken: 'generate with openssl rand -hex 64'
+  secretToken: '194b0fee968d1af357c284c7eba91153c1f4bb96352a0f253ab96e9e38d50c17fee854ed788a8075dca79f7cc69a0708425bcdb2ff7ace65b68caf3e3bc3e5d8'
+  service:
+    type: LoadBalancer
+    labels: {}
+    annotations: {}
+  image:
+    name: jupyterhub/configurable-http-proxy
+    tag: 2.0.1
+  cmd: 
+    - configurable-http-proxy
+    - --ip=0.0.0.0
+    - --port=8000
+    - --api-ip=0.0.0.0
+    - --api-port=8001
+    - --default-target=http://$(HUB_SERVICE_HOST):$(HUB_SERVICE_PORT)
+    - --error-target=http://$(HUB_SERVICE_HOST):$(HUB_SERVICE_PORT)
+    - --log-level=debug
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 512Mi
+  labels: null
+
+ingress:
+  enabled: false
+  https:
+    enabled: false
+    type: none
+
+
+# Google OAuth secrets
+auth:
+  type: dummy
+  dummy:
+    password: null
+
+singleuser:
+  extraLabels: {}
+  extraEnv: {}
+  lifecycleHooks: null
+  storage:
+    type: dynamic
+    static:
+      pvcName: null
+      subPath: "{username}"
+    capacity: 10Gi
+    homeMountPath: /home/jovyan
+    # type: hostPath
+    # homeHostPathTemplate: /data/project/paws/userhomes/{userid}
+  image:
+    name: jupyterhub/k8s-singleuser-sample
+    tag: v0.4
+  cpu:
+    limit: null
+    guarantee: null
+  memory:
+    limit: null
+    guarantee: 1G
+  cmd: jupyterhub-singleuser
+
+prePuller:
+  enabled: true
+  image:
+    name: yuvipanda/image-allnodes-puller
+    tag: v0.8
+
+cull:
+  enabled: true
+  timeout: 3600
+  every: 600
+
+statsd:
+  enabled: false
+  port: 8125
+  host: statsd
+  prefix: jupyterhub
+
+admin:
+  access: true
+  users: null
