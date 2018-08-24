@@ -33,7 +33,10 @@ docker push ${MY_REGISTRY}/coreos-flannel:v0.10.0-amd64
 echo ""
 echo "4.kubernetes-Ingress"
 docker tag quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.14.0 ${MY_REGISTRY}/nginx-ingress-controller:0.14.0
+docker push ${MY_REGISTRY}/nginx-ingress-controller:0.14.0
+
 docker tag k8s.gcr.io/defaultbackend:1.3 ${MY_REGISTRY}/k8s-gcr-io-defaultbackend:1.3 
+docker push ${MY_REGISTRY}/k8s-gcr-io-defaultbackend:1.3
 
 
 echo ""
