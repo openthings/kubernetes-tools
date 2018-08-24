@@ -17,8 +17,8 @@ echo ""
 ## Push镜像
 echo ""
 echo "1.k8s-gcr-io-dashboard"
-docker tag k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3 ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3 
-docker push ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3
+docker tag k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0 ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0 
+docker push ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0
 
 echo ""
 echo "2.kubernetes-helm"
