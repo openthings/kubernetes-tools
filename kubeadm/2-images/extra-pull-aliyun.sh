@@ -33,7 +33,7 @@ docker pull ${MY_REGISTRY}/nginx-ingress-controller:0.14.0
 docker tag ${MY_REGISTRY}/nginx-ingress-controller:0.14.0 quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.14.0
 
 docker pull ${MY_REGISTRY}/k8s-gcr-io-defaultbackend:1.3 
-docker tag ${MY_REGISTRY}/k8s-gcr-io-defaultbackend:1.3 quay.io/k8s.gcr.io/defaultbackend:1.3
+docker tag ${MY_REGISTRY}/k8s-gcr-io-defaultbackend:1.3 k8s.gcr.io/defaultbackend:1.3
 
 
 echo ""
