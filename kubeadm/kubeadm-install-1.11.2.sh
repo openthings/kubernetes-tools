@@ -10,5 +10,5 @@ sudo apt update
 echo "查看Kubernetes的可用版本："
 apt-cache madison kubeadm
 
-echo "安装kubeadm 1.10.2: "
-apt-get install -y kubeadm=1.10.2-00
+echo "安装kubeadm 1.11.2: "
+apt-get install -y kubeadm=1.11.2-00

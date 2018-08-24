@@ -10,8 +10,11 @@ MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
 
 echo ""
 echo "1.k8s-gcr-io-dashboard"
-docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3
-docker tag ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
+#docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3
+#docker tag ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
+
+docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0
+docker tag ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0 k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0
 
 echo ""
 echo "2.kubernetes-helm"

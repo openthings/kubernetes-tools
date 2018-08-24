@@ -1,7 +1,7 @@
 
 echo ""
 echo "=========================================================="
-echo "Setup Kubernetes Cluster 1.11.0 using kubeadm......"
+echo "Setup Kubernetes Cluster using kubeadm......"
 echo ""
 echo "Please visit https://my.oschina.net/u/2306127/blog/1628082"
 echo "=========================================================="
@@ -18,7 +18,7 @@ echo ""
 
 echo ""
 echo "Setup Kubernetes Cluster using kubeadm..."
-sudo kubeadm init --kubernetes-version=v1.11.0 –pod-network-cidr 10.244.0.0/16 --feature-gates CoreDNS=true
+sudo kubeadm init --kubernetes-version=v1.10.7 –pod-network-cidr 10.244.0.0/16
 echo ""
 
 echo "Install flannel CNI network driver..."

@@ -15,7 +15,7 @@ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admi
 echo "Patch deployment..."
 # for 2.8.1, kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'      
 # for 2.9.1
-kubectl -n kube-system patch deployment tiller-deploy -p '{"spec": {"template": {"spec": {"automountServiceAccountToken": true}}}}'
+#kubectl -n kube-system patch deployment tiller-deploy -p '{"spec": {"template": {"spec": {"automountServiceAccountToken": true}}}}'
 
 echo "helm init..."
 helm init --service-account tiller --upgrade

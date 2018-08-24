@@ -1,9 +1,0 @@
-root@openthings:/etc/kubernetes/manifests# kubeadm reset
-[preflight] Running pre-flight checks.
-[reset] Stopping the kubelet service.
-[reset] Unmounting mounted directories in "/var/lib/kubelet"
-[reset] Removing kubernetes-managed containers.
-[reset] Deleting contents of stateful directories: [/var/lib/kubelet /etc/cni/net.d /var/lib/dockershim /var/run/kubernetes /var/lib/etcd]
-[reset] Deleting contents of config directories: [/etc/kubernetes/manifests /etc/kubernetes/pki]
-[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
-
