@@ -6,6 +6,6 @@ echo "	https://github.com/kubernetes/charts/tree/master/stable/nginx-ingress#con
 echo ""
 
 helm install ./nginx-ingress --name nginx-ingress \
-	--namespace kube-system \
+	--namespace ingress \
 	--set controller.stats.enabled=true
 
