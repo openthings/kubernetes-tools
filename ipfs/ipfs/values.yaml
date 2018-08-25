@@ -1,9 +1,9 @@
 replicaCount: 1
 
-image: ipfs/go-ipfs:v0.4.15
+image: ipfs/go-ipfs:v0.4.17
 
 service:
-  type: NodePort
+  type: LoadBalancer
   
 resources: {}
 
@@ -18,6 +18,6 @@ persistence:
   ##
   # storageClass: "-"
   storageClass: "nfs"
-  size: "8Gi"
+  size: "10Gi"
   accessModes:
     - ReadWriteMany
