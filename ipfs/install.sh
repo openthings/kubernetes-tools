@@ -1,1 +1,1 @@
-helm install --name=ipfs --namespace=blockchain  ./ipfs
+helm install --name=ipfs --namespace=ipfs  ./ipfs

@@ -32,7 +32,7 @@
                      }],
                     "env":[{
                         "name": "KUBE_INSECURE",
-                        "value": "false"
+                        "value": "true"
                     }]
                   }]
                }
@@ -49,11 +49,12 @@
             }
          },
          "spec":{
-             "type": "ClusterIP",
+             "type": "NodePort",
              "ports": [{
                  "protocol": "TCP",
                  "port": 443,
-                 "targetPort": 9090
+                 "targetPort": 9090,
+                 "nodePort": 30909
              }],
             "selector":{
                "name":"kubernetes-cockpit"
