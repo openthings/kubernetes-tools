@@ -2,6 +2,7 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: nfs-provisioner-runner
+  namespace: nfs2x
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -27,11 +28,12 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: run-nfs-provisioner
+  namespace: nfs2x
 subjects:
   - kind: ServiceAccount
     name: nfs-provisioner
      # replace with namespace where provisioner is deployed
-    namespace: default
+    namespace: nfs2x
 roleRef:
   kind: ClusterRole
   name: nfs-provisioner-runner
@@ -41,6 +43,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-provisioner
+  namespace: nfs2x
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
@@ -50,11 +53,12 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-provisioner
+  namespace: nfs2x
 subjects:
   - kind: ServiceAccount
     name: nfs-provisioner
     # replace with namespace where provisioner is deployed
-    namespace: default
+    namespace: nfs2x
 roleRef:
   kind: Role
   name: leader-locking-nfs-provisioner

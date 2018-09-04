@@ -2,8 +2,9 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nfs
+  namespace: nfs2x
   annotations:
-    volume.beta.kubernetes.io/storage-class: "example-nfs"
+    volume.beta.kubernetes.io/storage-class: "openthings-nfs"
 spec:
   accessModes:
     - ReadWriteMany

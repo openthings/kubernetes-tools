@@ -1,1 +1,0 @@
-helm install ./nfs-server-provisioner --name nfs-server --namespace nfs
