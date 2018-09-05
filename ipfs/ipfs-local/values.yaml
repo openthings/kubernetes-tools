@@ -3,7 +3,7 @@ replicaCount: 1
 image: ipfs/go-ipfs:v0.4.17
 
 service:
-  type: LoadBalancer
+  type: NodePort
   
 resources: {}
 
@@ -21,7 +21,7 @@ persistence:
   volumes:
     - name: ipfs-storage
       hostPath: 
-        path: /home/supermap/ipfsdata/
+        path: /home/ipfsdata/
         type: Directory
   size: "10Gi"
   accessModes:
