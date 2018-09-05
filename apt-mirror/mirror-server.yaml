@@ -14,7 +14,8 @@ metadata:
 spec:
   ports:
     - name: mirror-server
-      port: 9099
+      port: 80
+  type: LoadBalancer
   selector:
     app: apt-mirror
 ---
@@ -57,4 +58,4 @@ spec:
       volumes:
         - name: mirror-volume
           hostPath:
-            path: /home/apt-mirror
+            path: /home/supermap/apt-mirror
