@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: apt-mirror
+  namespace: apt-mirror
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: apt-mirror
+  namespace: apt-mirror
+  labels:
+    app: apt-mirror
+spec:
+  ports:
+    - name: mirror-server
+      port: 9099
+  selector:
+    app: apt-mirror
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: apt-mirror
+  namespace: apt-mirror
+spec:
+  selector:
+    matchLabels:
+      app: apt-mirror
+  replicas: 1
+  strategy:
+    type: Recreate 
+  template:
+    metadata:
+      labels:
+        app: apt-mirror
+    spec:
+      serviceAccount: apt-mirror
+      containers:
+        - name: apt-mirror
+          image: seterrychen/apt-mirror-http-server
+          ports:
+            - name: mirror-server
+              containerPort: 80
+          securityContext:
+            capabilities:
+              add:
+                - DAC_READ_SEARCH
+                - SYS_RESOURCE
+          env:
+            - name: RESYNC_PERIOD
+              value: 12h
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - name: mirror-volume
+              mountPath: /var/spool/apt-mirror
+      volumes:
+        - name: mirror-volume
+          hostPath:
+            path: /home/apt-mirror
