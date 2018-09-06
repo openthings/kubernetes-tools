@@ -20,7 +20,7 @@ RSYNCSOURCE=archive.ubuntu.com::ubuntu
 #BASEDIR=/var/www/ubuntuarchive/ 
 # 改成自己的目录：
 #BASEDIR=/media/smw/Appdata/ipfs-export/mirrors/ubuntu
-BASEDIR=/srv/pvc-208f84ad-b005-11e8-a684-3085a99c4bbf/data/mirrors/ubuntu
+BASEDIR=/home/mirror-ubuntu
 
 echo "From:" $RSYNCSOURCE
 echo "To:" $BASEDIR
