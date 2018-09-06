@@ -18,6 +18,6 @@ persistence:
   ##
   # storageClass: "-"
   storageClass: "openthings-nfs"
-  size: "10Gi"
+  size: "2000Gi"
   accessModes:
     - ReadWriteMany

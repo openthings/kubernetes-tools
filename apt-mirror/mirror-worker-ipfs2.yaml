@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: apt-mirror
+  namespace: ipfs2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: apt-mirror-worker
+  namespace: ipfs2
+  labels:
+    app: apt-mirror-worker
+spec:
+  ports:
+    - name: mirror-worker
+      port: 80
+  type: LoadBalancer
+  selector:
+    app: apt-mirror-worker
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: apt-mirror
+  namespace: ipfs2
+spec:
+  selector:
+    matchLabels:
+      app: apt-mirror-worker
+  replicas: 1
+  strategy:
+    type: Recreate 
+  template:
+    metadata:
+      labels:
+        app: apt-mirror-worker
+    spec:
+      serviceAccount: apt-mirror
+      containers:
+        - name: apt-mirror-worker
+          image: seterrychen/apt-mirror-http-server
+          ports:
+            - name: mirror-worker
+              containerPort: 80
+          securityContext:
+            capabilities:
+              add:
+                - DAC_READ_SEARCH
+                - SYS_RESOURCE
+          env:
+            - name: RESYNC_PERIOD
+              value: 2h
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - name: mirror-volume
+              mountPath: /var/spool/apt-mirror
+              subPath: apt-mirror
+      volumes:
+        - name: mirror-volume
+          persistentVolumeClaim:
+            claimName: ipfs-storage-ipfs2-ipfs-0
