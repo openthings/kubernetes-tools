@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mirror-ubuntu-cronjob
+  namespace: ipfs2
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: mirror-ubuntu
+            image: openthings/mirror-ubuntu
+            args:
+            - /bin/sh
+            - /home/mirror-ubuntu.sh
+            imagePullPolicy: "IfNotPresent"
+            volumeMounts:
+              - name: mirror-volume
+                mountPath: /home/mirror-ubuntu
+                subPath: mirror-ubuntu
+          volumes:
+            - name: mirror-volume
+              persistentVolumeClaim:
+                claimName: ipfs-storage-ipfs2-ipfs-0

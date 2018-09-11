@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: apt-mirror
+  namespace: ipfs2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mirror-ubuntu-service
+  namespace: ipfs2
+  labels:
+    app: mirror-ubuntu-service
+spec:
+  ports:
+    - name: mirror-service
+      port: 80
+  type: LoadBalancer
+  selector:
+    app: mirror-ubuntu-service
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mirror-ubuntu-service
+  namespace: ipfs2
+spec:
+  selector:
+    matchLabels:
+      app: mirror-ubuntu-service
+  replicas: 1
+  strategy:
+    type: Recreate 
+  template:
+    metadata:
+      labels:
+        app: mirror-ubuntu-service
+    spec:
+      serviceAccount: apt-mirror
+      containers:
+        - name: mirror-ubuntu-service
+          image: nginx
+          ports:
+            - name: mirror-service
+              containerPort: 80
+          securityContext:
+            capabilities:
+              add:
+                - DAC_READ_SEARCH
+                - SYS_RESOURCE
+          env:
+            - name: RESYNC_PERIOD
+              value: 2h
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - name: mirror-volume
+              mountPath: /usr/share/nginx/html
+              subPath: mirror-ubuntu
+            - name: mirror-volume
+              mountPath: /etc/nginx/conf.d/
+              subPath: mirror-ubuntu/service-config
+      volumes:
+        - name: mirror-volume
+          persistentVolumeClaim:
+            claimName: ipfs-storage-ipfs2-ipfs-0

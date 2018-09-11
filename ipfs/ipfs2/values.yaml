@@ -17,7 +17,7 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   # storageClass: "-"
-  storageClass: "nfs"
-  size: "10Gi"
+  storageClass: "openthings-nfs"
+  size: "3000Gi"
   accessModes:
     - ReadWriteMany
