@@ -7,9 +7,9 @@ echo ""
 
 echo ""
 echo "===================================="
-echo "Kubernetes system images for 1.11.2"
+echo "Kubernetes system images for 1.11.3"
 echo "===================================="
-./2-images/kubernetes-pull-aliyun-1.11.2.sh
+./2-images/kubernetes-pull-aliyun-1.11.3.sh
 
 echo ""
 echo "===================================="
