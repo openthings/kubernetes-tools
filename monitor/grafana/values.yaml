@@ -37,13 +37,13 @@ downloadDashboardsImage:
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
   annotations: {}
   labels: {}
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -83,11 +83,11 @@ affinity: {}
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: false
-  # storageClassName: default
-  # accessModes:
-  #   - ReadWriteOnce
-  # size: 10Gi
+  enabled: true
+  #  storageClassName: openthings-nfs
+  #  accessModes:
+  #    - ReadWriteOnce
+  #  size: 1Gi
   # annotations: {}
   # subPath: ""
   # existingClaim:

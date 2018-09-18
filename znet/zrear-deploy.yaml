@@ -20,3 +20,4 @@ spec:
         ports:
         - containerPort: 9999
         imagePullPolicy: "IfNotPresent"
+       nodeName: "superwork"

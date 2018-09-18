@@ -151,7 +151,7 @@ alertmanager:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    storageClass: "nfs"
+    storageClass: "openthings-nfs"
 
     ## Subdirectory of alertmanager data Persistent Volume to mount
     ## Useful if the volume's root directory is not empty
@@ -577,7 +577,7 @@ server:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    storageClass: "nfs"
+    storageClass: "openthings-nfs"
 
     ## Subdirectory of Prometheus server data Persistent Volume to mount
     ## Useful if the volume's root directory is not empty
