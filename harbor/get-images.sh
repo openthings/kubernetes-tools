@@ -6,8 +6,11 @@ docker pull goharbor/harbor-jobservice:dev
 
 docker pull goharbor/clair-photon:dev 
 docker pull goharbor/notary-server-photon:dev
-docker pull goharbor/notary-signer-photon:dev 
+docker pull goharbor/notary-signer-photon:dev
+ 
 docker pull goharbor/registry-photon:dev 
+docker pull goharbor/harbor-registryctl:dev
+docker pull goharbor/chartmuseum-photon:dev
 
 docker pull goharbor/harbor-db:dev 
 docker pull docker.io/bitnami/redis:4.0.9 
