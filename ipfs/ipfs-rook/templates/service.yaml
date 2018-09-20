@@ -12,12 +12,12 @@ spec:
   ports:
   - port: 5001
     targetPort: 5001
-    nodePort: 30051
+    nodePort: 30081
     protocol: TCP
     name: api
   - port: 8080
     targetPort: 8080
-    nodePort: 30058
+    nodePort: 30068
     name: gateway
   selector:
     app: {{ template "ipfs.name" . }}
