@@ -15,9 +15,9 @@ docker tag k8s.gcr.io/kube-apiserver-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kub
 docker tag k8s.gcr.io/kube-scheduler-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler-amd64:v1.12.0
 docker tag k8s.gcr.io/kube-controller-manager-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager-amd64:v1.12.0 
 docker tag k8s.gcr.io/kube-proxy-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0 
-docker tag k8s.gcr.io/etcd-amd64:3.2.18 ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.18 
+docker tag k8s.gcr.io/etcd-amd64:3.2.24 ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24 
 docker tag k8s.gcr.io/pause:3.1 ${MY_REGISTRY}/k8s-gcr-io-pause:3.1 
-docker tag k8s.gcr.io/coredns:1.1.3 ${MY_REGISTRY}/k8s-gcr-io-coredns:1.1.3 
+docker tag k8s.gcr.io/coredns:1.2.2 ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2 
 
 echo ""
 echo "=========================================================="
@@ -42,7 +42,7 @@ docker push ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0
 
 echo ""
 echo "5.k8s-etcd-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.18
+docker push ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24
 
 echo ""
 echo "6.k8s-pause-amd64"
@@ -50,7 +50,7 @@ docker push ${MY_REGISTRY}/k8s-gcr-io-pause:3.1
 
 echo ""
 echo "7.k8s-coredns"
-docker push ${MY_REGISTRY}/k8s-gcr-io-coredns:1.1.3
+docker push ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2
 
 echo ""
 echo "=========================================================="

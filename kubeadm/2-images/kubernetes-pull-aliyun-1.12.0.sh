@@ -11,9 +11,9 @@ docker pull ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver-amd64:v1.12.0
 docker pull ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager-amd64:v1.12.0
 docker pull ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler-amd64:v1.12.0
 docker pull ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0
-docker pull ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.18
+docker pull ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24
 docker pull ${MY_REGISTRY}/k8s-gcr-io-pause:3.1
-docker pull ${MY_REGISTRY}/k8s-gcr-io-coredns:1.1.3
+docker pull ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2
 
 
 ## 添加Tag
@@ -21,9 +21,9 @@ docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver-amd64:v1.12.0 k8s.gcr.io/kub
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler-amd64:v1.12.0 k8s.gcr.io/kube-scheduler-amd64:v1.12.0
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager-amd64:v1.12.0 k8s.gcr.io/kube-controller-manager-amd64:v1.12.0
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0 k8s.gcr.io/kube-proxy-amd64:v1.12.0
-docker tag ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.18 k8s.gcr.io/etcd-amd64:3.2.18
+docker tag ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24 k8s.gcr.io/etcd-amd64:3.2.24
 docker tag ${MY_REGISTRY}/k8s-gcr-io-pause:3.1 k8s.gcr.io/pause:3.1
-docker tag ${MY_REGISTRY}/k8s-gcr-io-coredns:1.1.3 k8s.gcr.io/coredns:1.1.3
+docker tag ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2 k8s.gcr.io/coredns:1.2.2
 
 echo ""
 echo "=========================================================="
