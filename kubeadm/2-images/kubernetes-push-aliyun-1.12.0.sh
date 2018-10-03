@@ -11,11 +11,11 @@ echo "docker tag to openthings ..."
 
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
 
-docker tag k8s.gcr.io/kube-apiserver-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver-amd64:v1.12.0 
-docker tag k8s.gcr.io/kube-scheduler-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler-amd64:v1.12.0
-docker tag k8s.gcr.io/kube-controller-manager-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager-amd64:v1.12.0 
-docker tag k8s.gcr.io/kube-proxy-amd64:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0 
-docker tag k8s.gcr.io/etcd-amd64:3.2.24 ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24 
+docker tag k8s.gcr.io/kube-apiserver:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.12.0 
+docker tag k8s.gcr.io/kube-scheduler:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.12.0
+docker tag k8s.gcr.io/kube-controller-manager:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.12.0 
+docker tag k8s.gcr.io/kube-proxy:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.12.0 
+docker tag k8s.gcr.io/etcd:3.2.24 ${MY_REGISTRY}/k8s-gcr-io-etcd:3.2.24 
 docker tag k8s.gcr.io/pause:3.1 ${MY_REGISTRY}/k8s-gcr-io-pause:3.1 
 docker tag k8s.gcr.io/coredns:1.2.2 ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2 
 
@@ -25,27 +25,27 @@ echo ""
 
 ## Push镜像
 echo ""
-echo "1.k8s-kube-apiserver-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver-amd64:v1.12.0
+echo "1.k8s-kube-apiserver"
+docker push ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.12.0
 
 echo ""
-echo "2.k8s-kube-controller-manager-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager-amd64:v1.12.0
+echo "2.k8s-kube-controller-manager"
+docker push ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.12.0
 
 echo ""
-echo "3.k8s-kube-scheduler-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler-amd64:v1.12.0
+echo "3.k8s-kube-scheduler"
+docker push ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.12.0
 
 echo ""
-echo "4.k8s-kube-proxy-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-kube-proxy-amd64:v1.12.0
+echo "4.k8s-kube-proxy"
+docker push ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.12.0
 
 echo ""
-echo "5.k8s-etcd-amd64"
-docker push ${MY_REGISTRY}/k8s-gcr-io-etcd-amd64:3.2.24
+echo "5.k8s-etcd"
+docker push ${MY_REGISTRY}/k8s-gcr-io-etcd:3.2.24
 
 echo ""
-echo "6.k8s-pause-amd64"
+echo "6.k8s-pause"
 docker push ${MY_REGISTRY}/k8s-gcr-io-pause:3.1
 
 echo ""
