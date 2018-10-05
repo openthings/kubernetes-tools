@@ -8,7 +8,7 @@ persistence:
 # Usually, if ingress is enabled, the domain should be the value of
 # ingress.hosts.core .
 # If Harbor is deployed behind the proxy, set it as the URL of proxy
-externalURL: https://core.harbor.domain
+#externalURL: https://core.harbor.domain
 
 ingress:
   enabled: true
@@ -101,7 +101,7 @@ database:
       data:
         storageClass: "openthings-nfs"
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 10Gi
     # resources:
     #  requests:
     #    memory: 256Mi
