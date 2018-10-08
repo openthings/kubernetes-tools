@@ -10,10 +10,10 @@ echo "docker tag to openthings ..."
 
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
 
-docker tag k8s.gcr.io/kube-apiserver:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.12.1 
-docker tag k8s.gcr.io/kube-scheduler:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.12.1
-docker tag k8s.gcr.io/kube-controller-manager:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.12.1 
-docker tag k8s.gcr.io/kube-proxy:v1.12.0 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.12.1 
+docker tag k8s.gcr.io/kube-apiserver:v1.12.1 ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.12.1 
+docker tag k8s.gcr.io/kube-scheduler:v1.12.1 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.12.1
+docker tag k8s.gcr.io/kube-controller-manager:v1.12.1 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.12.1 
+docker tag k8s.gcr.io/kube-proxy:v1.12.1 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.12.1 
 docker tag k8s.gcr.io/etcd:3.2.24 ${MY_REGISTRY}/k8s-gcr-io-etcd:3.2.24 
 docker tag k8s.gcr.io/pause:3.1 ${MY_REGISTRY}/k8s-gcr-io-pause:3.1 
 docker tag k8s.gcr.io/coredns:1.2.2 ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2 
@@ -53,7 +53,7 @@ docker push ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.2
 
 echo ""
 echo "=========================================================="
-echo "Push Kubernetes 1.12.0 Images FINISHED."
+echo "Push Kubernetes 1.12.1 Images FINISHED."
 echo "into registry.cn-hangzhou.aliyuncs.com/openthings, "
 echo "           by openthings@https://my.oschina.net/u/2306127."
 echo "=========================================================="
