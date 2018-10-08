@@ -24,7 +24,7 @@ docker pull k8s.gcr.io/kube-proxy:v1.12.1
 
 echo ""
 echo "5.k8s-etcd"
-docker pull k8s.gcr.io/etcd:3.2.28
+docker pull k8s.gcr.io/etcd:3.2.24
 
 echo ""
 echo "6.k8s-pause"
