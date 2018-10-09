@@ -10,6 +10,7 @@
       apt:
         name: "*"
         state: latest
+        force_apt_get: yes
 
 - hosts: 192.168.199.174
   remote_user: root
@@ -22,6 +23,7 @@
       apt:
         name: "*"
         state: latest
+        force_apt_get: yes
 
 - hosts: 192.168.199.249
   remote_user: root
@@ -34,3 +36,5 @@
       apt:
         name: "*"
         state: latest
+        force_apt_get: yes
+
