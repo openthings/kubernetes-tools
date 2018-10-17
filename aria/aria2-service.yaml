@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aria-service
+  namespace: owncloud
+spec:
+  containers:
+  - image: openthings/aria2-service
+    name: aria-service
+    args: 
+    - /bin/sh
+    - /home/aria2-service.sh
+    ports:
+    – name: aria-rpc
+      containerPort: 6800
+      protocol: http
+    volumeMounts:
+    - mountPath: /data
+      name: data-volume
+  volumes:
+  - name: data-volume
+    hostPath:
+      path: /home/supermap/data
