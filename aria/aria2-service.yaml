@@ -11,9 +11,9 @@ spec:
     - /bin/sh
     - /home/aria2-service.sh
     ports:
-    – name: aria-rpc
+    - name: aria-rpc
       containerPort: 6800
-      protocol: http
+      protocol: TCP
     volumeMounts:
     - mountPath: /data
       name: data-volume
