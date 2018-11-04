@@ -1,0 +1,28 @@
+---
+- hosts: 192.168.199.188
+  remote_user: root
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: absent
+        force_apt_get: yes
+
+- hosts: 192.168.199.174
+  remote_user: root
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: absent
+        force_apt_get: yes
+
+- hosts: 192.168.199.249
+  remote_user: root
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: absent
+        force_apt_get: yes
+

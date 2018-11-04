@@ -1,0 +1,31 @@
+---
+##
+- hosts: 192.168.199.188
+  remote_user: root
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+        force_apt_get: yes
+
+##
+- hosts: 192.168.199.174
+  remote_user: root
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+        force_apt_get: yes
+
+##
+- hosts: 192.168.199.249
+  remote_user: root
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+        force_apt_get: yes
+
