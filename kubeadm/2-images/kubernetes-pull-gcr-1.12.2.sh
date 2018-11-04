@@ -8,19 +8,19 @@ echo ""
 
 echo ""
 echo "1.k8s-kube-apiserver"
-docker pull k8s.gcr.io/kube-apiserver:v1.12.1
+docker pull k8s.gcr.io/kube-apiserver:v1.12.2
 
 echo ""
 echo "2.k8s-kube-controller-manager"
-docker pull k8s.gcr.io/kube-controller-manager:v1.12.1
+docker pull k8s.gcr.io/kube-controller-manager:v1.12.2
 
 echo ""
 echo "3.k8s-kube-scheduler"
-docker pull k8s.gcr.io/kube-scheduler:v1.12.1
+docker pull k8s.gcr.io/kube-scheduler:v1.12.2
 
 echo ""
 echo "4.k8s-kube-proxy"
-docker pull k8s.gcr.io/kube-proxy:v1.12.1
+docker pull k8s.gcr.io/kube-proxy:v1.12.2
 
 echo ""
 echo "5.k8s-etcd"
