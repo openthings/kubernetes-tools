@@ -1,1 +1,1 @@
-ansible all -m shell -a "hostname" --ask-pass
+ansible all -i ansible_hosts -m shell -a "hostname" #--ask-pass

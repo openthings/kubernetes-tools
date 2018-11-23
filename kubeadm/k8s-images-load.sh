@@ -7,20 +7,20 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-echo "A1<< k8s.gcr.io/kube-apiserver:v1.12.1"
-sudo docker load -i A1-k8s-kube-apiserver-v1.12.1.tar
+echo "A1<< k8s.gcr.io/kube-apiserver:v1.12.2"
+sudo docker load -i A1-k8s-kube-apiserver-v1.12.2.tar
 echo ""
 
-echo "A2<< k8s.gcr.io/kube-controller-manager:v1.12.1"
-sudo docker load -i A2-k8s-kube-controller-manager-v1.12.1.tar
+echo "A2<< k8s.gcr.io/kube-controller-manager:v1.12.2"
+sudo docker load -i A2-k8s-kube-controller-manager-v1.12.2.tar
 echo ""
 
-echo "A3<< k8s.gcr.io/kube-scheduler:v1.12.1"
-sudo docker load -i A3-k8s-kube-scheduler-v1.12.1.tar
+echo "A3<< k8s.gcr.io/kube-scheduler:v1.12.2"
+sudo docker load -i A3-k8s-kube-scheduler-v1.12.2.tar
 echo ""
 
-echo "A4<< k8s.gcr.io/kube-proxy:v1.12.1"
-sudo docker load -i A4-k8s-kube-proxy-v1.12.1.tar
+echo "A4<< k8s.gcr.io/kube-proxy:v1.12.2"
+sudo docker load -i A4-k8s-kube-proxy-v1.12.2.tar
 echo ""
 
 echo "A5<< k8s.gcr.io/pause:3.1"
