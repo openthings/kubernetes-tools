@@ -1,0 +1,77 @@
+{
+  "clusters": [
+    {
+      "nodes": [
+
+        {
+          "node": {
+            "hostnames": {
+              "manage": [
+                "pods01"
+              ],
+              "storage": [
+                "10.1.1.193"
+              ]
+            },
+            "zone": 1
+          },
+          "devices": [
+            "/zpool/heketi"
+          ]
+        },
+
+        {
+          "node": {
+            "hostnames": {
+              "manage": [
+                "pods02"
+              ],
+              "storage": [
+                "10.1.1.234"
+              ]
+            },
+            "zone": 1
+          },
+          "devices": [
+            "/zpool/heketi"
+          ]
+        },
+
+        {
+          "node": {
+            "hostnames": {
+              "manage": [
+                "pods03"
+              ],
+              "storage": [
+                "10.1.1.205"
+              ]
+            },
+            "zone": 1
+          },
+          "devices": [
+            "/zpool/heketi"
+          ]
+        },
+
+        {
+          "node": {
+            "hostnames": {
+              "manage": [
+                "pods04"
+              ],
+              "storage": [
+                "10.1.1.112"
+              ]
+            },
+            "zone": 1
+          },
+          "devices": [
+            "/zpool/heketi"
+          ]
+        }
+
+      ]
+    }
+  ]
+}

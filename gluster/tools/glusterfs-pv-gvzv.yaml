@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluster-provisioner-gvz
+spec:
+  capacity:
+    storage: 200Ti
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /home/supermap/gvzv

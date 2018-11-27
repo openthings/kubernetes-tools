@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: glusterfs-gvx
+  namespace: glusterfs
+subsets:
+- addresses:
+  - ip: 10.1.1.201
+  - ip: 10.1.1.202
+  - ip: 10.1.1.203
+  ports:
+  - port: 11000
+    protocol: TCP
+
