@@ -7,7 +7,7 @@ echo "================================================================="
 
 echo ""
 echo "1. centraldashboard"
-docker pull gcr.io/kubeflow-images-public/centraldashboard:v20180618-v0.2.0-rc.0-5-g715aafc8-e3b0c4
+docker pull gcr.io/kubeflow-images-public/centraldashboard:v0.2.1
 
 echo ""
 echo "2. jupyterhub-k8s"

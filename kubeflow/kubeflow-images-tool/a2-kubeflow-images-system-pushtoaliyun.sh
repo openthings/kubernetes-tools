@@ -9,8 +9,8 @@ MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
 
 echo ""
 echo "1. centraldashboard"
-docker tag gcr.io/kubeflow-images-public/centraldashboard:v20180618-v0.2.0-rc.0-5-g715aafc8-e3b0c4 ${MY_REGISTRY}/kubeflow-images-public-centraldashboard:v20180618-v0.2.0-rc.0-5-g715aafc8-e3b0c4
-docker push ${MY_REGISTRY}/kubeflow-images-public-centraldashboard:v20180618-v0.2.0-rc.0-5-g715aafc8-e3b0c4
+docker tag gcr.io/kubeflow-images-public/centraldashboard:v0.2.1 ${MY_REGISTRY}/kubeflow-images-public-centraldashboard:v0.2.1
+docker push ${MY_REGISTRY}/kubeflow-images-public-centraldashboard:v0.2.1
 
 echo ""
 echo "2. jupyterhub-k8s"
