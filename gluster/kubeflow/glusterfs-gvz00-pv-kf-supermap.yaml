@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kubeflow-supermap
+spec:
+  capacity:
+    storage: 8000Gi
+  accessModes:
+    - ReadWriteMany
+  glusterfs:
+    endpoints: "glusterfs-gvz00"
+    path: "gvz00"
+    readOnly: false

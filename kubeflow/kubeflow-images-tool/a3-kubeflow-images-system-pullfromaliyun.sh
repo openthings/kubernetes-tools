@@ -2,7 +2,7 @@
 echo ""
 echo "================================================================="
 echo "Pull kubeflow images for system from aliyun.com ..."
-echo "This tools created by openthings, NO WARANTY. 2018.07.10."
+echo "This tools created by openthings, NO WARANTY. 2018.11.28."
 echo "================================================================="
 
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings

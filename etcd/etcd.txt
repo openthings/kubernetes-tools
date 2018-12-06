@@ -1,0 +1,68 @@
+Name:               etcd-podc01
+Namespace:          kube-system
+Priority:           2000000000
+PriorityClassName:  system-cluster-critical
+Node:               podc01/10.1.1.181
+Start Time:         Mon, 03 Dec 2018 10:42:05 +0800
+Labels:             component=etcd
+                    tier=control-plane
+Annotations:        kubernetes.io/config.hash: bcc0eea4c53f3b70d13b771ad88e31b7
+                    kubernetes.io/config.mirror: bcc0eea4c53f3b70d13b771ad88e31b7
+                    kubernetes.io/config.seen: 2018-12-05T11:05:31.8690622+08:00
+                    kubernetes.io/config.source: file
+                    scheduler.alpha.kubernetes.io/critical-pod: 
+Status:             Running
+IP:                 10.1.1.181
+Containers:
+  etcd:
+    Container ID:  docker://8f301c91902a9399f144943013166a09dd0766a9b96c26fe2d8e335418a55cab
+    Image:         k8s.gcr.io/etcd:3.2.24
+    Image ID:      docker-pullable://registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-etcd@sha256:7b073bdab8c52dc23dfb3e2101597d30304437869ad8c0b425301e96a066c408
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      etcd
+      --advertise-client-urls=https://127.0.0.1:2379
+      --cert-file=/etc/kubernetes/pki/etcd/server.crt
+      --client-cert-auth=true
+      --data-dir=/var/lib/etcd
+      --initial-advertise-peer-urls=https://127.0.0.1:2380
+      --initial-cluster=podc01=https://127.0.0.1:2380
+      --key-file=/etc/kubernetes/pki/etcd/server.key
+      --listen-client-urls=https://127.0.0.1:2379
+      --listen-peer-urls=https://127.0.0.1:2380
+      --name=podc01
+      --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+      --peer-client-cert-auth=true
+      --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
+      --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+      --snapshot-count=10000
+      --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+    State:          Running
+      Started:      Wed, 05 Dec 2018 11:05:35 +0800
+    Ready:          True
+    Restart Count:  0
+    Liveness:       exec [/bin/sh -ec ETCDCTL_API=3 etcdctl --endpoints=https://[127.0.0.1]:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key get foo] delay=15s timeout=15s period=10s #success=1 #failure=8
+    Environment:    <none>
+    Mounts:
+      /etc/kubernetes/pki/etcd from etcd-certs (rw)
+      /var/lib/etcd from etcd-data (rw)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  etcd-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/etcd
+    HostPathType:  DirectoryOrCreate
+  etcd-certs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /etc/kubernetes/pki/etcd
+    HostPathType:  DirectoryOrCreate
+QoS Class:         BestEffort
+Node-Selectors:    <none>
+Tolerations:       :NoExecute
+Events:            <none>

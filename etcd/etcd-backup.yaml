@@ -1,0 +1,71 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: etcd-disaster-recovery
+  namespace: cronjob
+spec:
+ schedule: "0 22 * * *"
+ jobTemplate:
+  spec:
+    template:
+      metadata:
+       labels:
+        app: etcd-disaster-recovery
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                      - podc01
+        containers:
+        - name: etcd
+          image: k8s.gcr.io/etcd:3.2.24
+          imagePullPolicy: "IfNotPresent"
+          command:
+          - sh
+          - -c
+          - "export ETCDCTL_API=3; \
+             etcdctl --endpoints=$ENDPOINT \
+             --cert=/etc/kubernetes/pki/etcd/server.crt \
+             --key=/etc/kubernetes/pki/etcd/server.key \
+             --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+             snapshot save /snapshot/$(date +%Y%m%d_%H%M%S)_snapshot.db; \
+             echo etcd backup success"
+          env:
+          - name: ENDPOINT
+            value: "https://127.0.0.1:2379"
+          volumeMounts:
+            - mountPath: "/etc/kubernetes/pki/etcd"
+              name: etcd-certs
+            - mountPath: "/var/lib/etcd"
+              name: etcd-data
+            - mountPath: "/snapshot"
+              name: snapshot
+              subPath: data/etcd-snapshot
+            - mountPath: /etc/localtime
+              name: lt-config
+            - mountPath: /etc/timezone
+              name: tz-config
+        restartPolicy: OnFailure
+        volumes:
+          - name: etcd-certs
+            hostPath:
+              path: /etc/kubernetes/pki/etcd
+          - name: etcd-data
+            hostPath:
+              path: /var/lib/etcd
+          - name: snapshot
+            hostPath:
+              path: /home/supermap/k8s-backup
+          - name: lt-config
+            hostPath:
+              path: /etc/localtime
+          - name: tz-config
+            hostPath:
+              path: /etc/timezone
+        hostNetwork: true
+
