@@ -7,22 +7,24 @@ metadata:
   labels:
     component: etcd
     tier: control-plane
-  name: etcd
+  name: etcd-podc03
   namespace: kube-system
 spec:
+  nodeSelector:
+    kubernetes.io/hostname: podc03
   containers:
   - command:
     - etcd
-    - --advertise-client-urls=https://10.1.1.201:2379
+    - --advertise-client-urls=http://10.1.1.203:2379,http://127.0.0.1:2379,http://127.0.0.1:4001
     - --cert-file=/etc/kubernetes/pki/etcd/server.crt
-    - --client-cert-auth=true
+    - --client-cert-auth=false
     - --data-dir=/var/lib/etcd
-    - --initial-advertise-peer-urls=https://10.1.1.201:2380
-    - --initial-cluster=podc01=https://10.1.1.201:2380,podc02=https://10.1.1.202:2380,podc03=https://10.1.1.203:2380
+    - --initial-advertise-peer-urls=http://10.1.1.203:2380
+    - --initial-cluster=podc02=http://10.1.1.202:2380,podc03=http://10.1.1.203:2380
     - --key-file=/etc/kubernetes/pki/etcd/server.key
-    - --listen-client-urls=https://0.0.0.0:2379
-    - --listen-peer-urls=https://0.0.0.0:2380
-    - --name=podc01
+    - --listen-client-urls=http://0.0.0.0:2379
+    - --listen-peer-urls=http://0.0.0.0:2380
+    - --name=podc03
     - --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
     - --peer-client-cert-auth=true
     - --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
@@ -31,17 +33,17 @@ spec:
     - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
     image: k8s.gcr.io/etcd:3.2.24
     imagePullPolicy: IfNotPresent
-    livenessProbe:
-      exec:
-        command:
-        - /bin/sh
-        - -ec
-        - ETCDCTL_API=3 etcdctl --endpoints=https://[10.1.1.201]:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt
-          --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
-          get foo
-      failureThreshold: 8
-      initialDelaySeconds: 15
-      timeoutSeconds: 15
+#    livenessProbe:
+#      exec:
+#        command:
+#        - /bin/sh
+#        - -ec
+#        - ETCDCTL_API=3 etcdctl --endpoints=http://[10.1.1.203]:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt
+#          --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
+#          get foo
+#      failureThreshold: 8
+#      initialDelaySeconds: 15
+#      timeoutSeconds: 15
     name: etcd
     resources: {}
     volumeMounts:
