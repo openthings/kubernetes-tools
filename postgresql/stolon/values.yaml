@@ -1,0 +1,164 @@
+# Default values for Stolon Helm Chart.
+# This is a YAML-formatted file.
+## Declare variables to be passed into your templates.
+
+## Override the name of the Chart.
+##
+# nameOverride:
+
+## Stolon image.
+##
+
+image: "sorintlab/stolon"
+
+## Stolon image version.
+## ref: https://hub.docker.com/r/sorintlab/stolon/tags/
+##
+imageTag: "v0.12.0-pg10"
+
+## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
+## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+##
+# imagePullPolicy:
+
+## Configuration values for Stolon.
+
+# Set custom stolon cluster name
+# clusterName: "kube-stolon"
+debug: false
+
+## log slow queries
+# disabled by default
+slow_queries:
+  enabled: false
+  min_duration: 300
+
+ports:
+  internalPort: 5432
+  externalPort: 5432
+
+store:
+  ##  Backend could be one of the following:
+  ## - etcdv2
+  ## - etcdv3
+  ## - consul (should work, but not tested yet)
+  ## - kubernetes (should work, but not tested yet)
+  backend: "kubernetes"
+  ## store endpoints MUST be set for etcd/consul backends
+  #  endpoints: "http://etcd-etcd-0.etcd-etcd:2379,http://etcd-etcd-1.etcd-etcd:2379,http://etcd-etcd-2.etcd-etcd:2379"
+
+pgReplUsername: "repluser"
+## set password for the repluser
+## default is 40 random chars
+#pgReplPassword: "replPassword"
+
+pgSuperuserName: "stolon"
+
+## set password for the superuser
+## default is 40 random chars
+# pgSuperuserPassword: ""
+
+sentinel:
+  replicas: 3
+
+  ## Configure resource requests and limits.
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+
+  ## Configure nodeSelector, tolerations and affinity.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node
+  ##
+
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+
+proxy:
+  replicas: 3
+  ## Set serviceType to nodePort if needed
+  ## proxy is used to route RW requests to the master
+  # serviceType: NodePort
+
+  ## Configure resource requests and limits.
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+
+  ## Configure nodeSelector, tolerations and affinity.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node
+  ##
+
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+
+keeper:
+  replicas: 3
+  ## Set serviceType to nodePort if needed
+  ## keeper service is used to route RO requests to all nodes
+  # serviceType: NodePort
+
+  ## configure ssl for client access
+  # create certificates according to these instructions: https://www.postgresql.org/docs/9.6/static/ssl-tcp.html
+  # to enable encrypted traffic, servert.crt and server.key are required, by that name.
+  # the use of ** Client Certificates ** is not supported
+  client_ssl:
+    enabled: false
+    certs_secret_name: pg-cert-secret
+
+  ## Configure resource requests and limits.
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+
+  ## Configure nodeSelector, tolerations and affinity.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node
+  ##
+
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+
+## Persistent Volume Storage configuration.
+## ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+##
+
+persistence:
+  ## Enable persistence using Persistent Volume Claims.
+  ##
+  enabled: false
+
+  ## Persistent Volume Access Mode.
+  ##
+  accessMode: ReadWriteOnce
+
+  ## Persistant Volume Storage Class Name
+  storageClassName: standard
+
+  ## Persistent Volume Storage Size.
+  ##
+  size: 10Gi
+
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  # name: my-name

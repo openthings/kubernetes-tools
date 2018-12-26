@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: DEFAULT_USER
+            value: {{ .Values.pgadmin.username }}
+          - name: DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}
+                key: pgadmin-password
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          volumeMounts:
+          - name: pgadmin-data
+            mountPath: /var/lib/pgadmin4
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+        - name: pgadmin-data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}

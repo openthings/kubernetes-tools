@@ -1,0 +1,35 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.staticIPReservation }}
+    {{- if .Values.ingress.tls.enabled }}
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - secretName: {{ template "fullname" . }}-tls
+    hosts:
+    - {{ .Values.ingress.tls.externalDNSName }}
+  rules:
+  - host: {{ .Values.ingress.tls.externalDNSName }}
+    http:
+      paths:
+      - path: "/*"
+        backend:
+          serviceName: {{ template "fullname" . }}
+          servicePort: {{ .Values.service.externalPort }}
+  {{- end }}
+  backend:
+    serviceName: {{ template "fullname" . }}
+    servicePort: {{ .Values.service.externalPort }}
+{{- end }}
