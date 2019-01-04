@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "stolon.keeper.fullname" . }}
+  labels:
+    app: {{ template "stolon.keeper.fullname" . }}
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "stolon-keeper"
+    heritage: "{{ .Release.Service }}"
+spec:
+  {{ if .Values.keeper.serviceType }}
+  type: {{ .Values.keeper.serviceType }}
+  {{ end }}
+  ports:
+    - port: {{ .Values.ports.externalPort }}
+      targetPort: {{ .Values.ports.internalPort }}
+  selector:
+    app: {{ template "stolon.keeper.fullname" . }}
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "stolon-keeper"
+    stolon-cluster: {{ template "stolon.clusterName" . }}
