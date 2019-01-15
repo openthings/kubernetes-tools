@@ -1,0 +1,12 @@
+apiVersion: v1
+name: pgadmin-chart
+description: pgAdmin is the most popular and feature rich Open Source administration and development platform for PostgreSQL, the most advanced Open Source database in the world.
+keywords:
+  - pgadmin
+  - postgres
+  - database
+  - sql
+home: https://www.pgadmin.org/
+source:
+  - https://github.com/jjcollinge/pgadmin-chart
+version: 0.1.0

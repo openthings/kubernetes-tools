@@ -2,7 +2,7 @@
 10.1.1.201 ansible_ssh_port=22 ansible_ssh_host=10.1.1.201 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
 10.1.1.202 ansible_ssh_port=22 ansible_ssh_host=10.1.1.202 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
 10.1.1.203 ansible_ssh_port=22 ansible_ssh_host=10.1.1.203 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
-10.1.1.142 ansible_ssh_port=22 ansible_ssh_host=10.1.1.142 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
+10.1.1.204 ansible_ssh_port=22 ansible_ssh_host=10.1.1.204 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
 
 10.1.1.193 ansible_ssh_port=22 ansible_ssh_host=10.1.1.193 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
 10.1.1.234 ansible_ssh_port=22 ansible_ssh_host=10.1.1.234 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
