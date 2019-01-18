@@ -3,6 +3,7 @@ kind: Pod
 metadata:
   name: gpu-digits
 spec:
+  nodeName: podc01
   containers:
     - name: digits-container
       image: nvidia/digits:6.0
