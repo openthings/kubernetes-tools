@@ -8,23 +8,23 @@ echo ""
 
 echo ""
 echo "1.k8s-kube-apiserver"
-docker rmi k8s.gcr.io/kube-apiserver:v1.12.1
-docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-apiserver:v1.12.1
+docker rmi k8s.gcr.io/kube-apiserver:v1.12.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-apiserver:v1.12.2
 
 echo ""
 echo "2.k8s-kube-controller-manager"
-docker rmi k8s.gcr.io/kube-controller-manager:v1.12.1
-docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-controller-manager:v1.12.1
+docker rmi k8s.gcr.io/kube-controller-manager:v1.12.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-controller-manager:v1.12.2
 
 echo ""
 echo "3.k8s-kube-scheduler"
-docker rmi k8s.gcr.io/kube-scheduler:v1.12.1
-docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-scheduler:v1.12.1
+docker rmi k8s.gcr.io/kube-scheduler:v1.12.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-scheduler:v1.12.2
 
 echo ""
 echo "4.k8s-kube-proxy"
-docker rmi k8s.gcr.io/kube-proxy:v1.12.1
-docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-proxy:v1.12.1
+docker rmi k8s.gcr.io/kube-proxy:v1.12.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/openthings/k8s-gcr-io-kube-proxy:v1.12.2
 
 echo ""
 #echo "5.k8s-etcd"
@@ -40,6 +40,6 @@ echo ""
 
 echo ""
 echo "=========================================================="
-echo "Pull Kubernetes 1.13.3 Images from k8s.gcr.io, FINISH."
+echo " Remove Kubernetes Images from k8s.gcr.io, FINISH."
 echo "=========================================================="
 echo ""
