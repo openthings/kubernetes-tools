@@ -17,8 +17,8 @@ echo "A2.<< jupyterhub/configurable-http-proxy:3.1.1"
 sudo docker load -i ${images_path}A2-jupyterhub-configurable-http-proxy-3.1.1.tar
 echo ""
 
-echo "A3.<< quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0"
-sudo docker load -i ${images_path}A3-quay.io-kubernetes-ingress-controller-nginx-ingress-controller-0.21.0.tar
+echo "A3.<< quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.22.0"
+sudo docker load -i ${images_path}A3-quay.io-kubernetes-ingress-controller-nginx-ingress-controller-0.22.0.tar
 echo ""
 
 echo "A4.<< jetstack/kube-lego:canary"

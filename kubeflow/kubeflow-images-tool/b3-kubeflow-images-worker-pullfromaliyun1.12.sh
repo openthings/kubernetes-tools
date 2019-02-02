@@ -1,7 +1,9 @@
 ## 添加Tag for registry.cn-hangzhou.aliyuncs.com/openthings
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
-MY_IMAGE_CPU=tensorflow-1.12.0-notebook-cpu:v-base-76107ff-897
-MY_IMAGE_GPU=tensorflow-1.12.0-notebook-gpu:v-base-76107ff-897
+#MY_IMAGE_CPU=tensorflow-1.12.0-notebook-cpu:v-base-76107ff-897
+MY_IMAGE_CPU=tensorflow-1.12.0-notebook-cpu:v0.4.0
+#MY_IMAGE_GPU=tensorflow-1.12.0-notebook-gpu:v-base-76107ff-897
+MY_IMAGE_GPU=tensorflow-1.12.0-notebook-gpu:v0.4.0
 
 ## Push镜像
 ## Tag to original docker iamges name.

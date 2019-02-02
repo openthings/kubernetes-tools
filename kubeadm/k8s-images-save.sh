@@ -7,20 +7,20 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-echo "A1.>> k8s.gcr.io/kube-apiserver:v1.13.1"
-docker save k8s.gcr.io/kube-apiserver:v1.13.1 -o A1-k8s-kube-apiserver-v1.13.1.tar
+echo "A1.>> k8s.gcr.io/kube-apiserver:v1.13.2"
+docker save k8s.gcr.io/kube-apiserver:v1.13.2 -o A1-k8s-kube-apiserver-v1.13.2.tar
 echo ""
 
-echo "A2.>> k8s.gcr.io/kube-controller-manager:v1.13.1"
-docker save k8s.gcr.io/kube-controller-manager:v1.13.1 -o A2-k8s-kube-controller-manager-v1.13.1.tar
+echo "A2.>> k8s.gcr.io/kube-controller-manager:v1.13.2"
+docker save k8s.gcr.io/kube-controller-manager:v1.13.2 -o A2-k8s-kube-controller-manager-v1.13.2.tar
 echo ""
 
-echo "A3.>> k8s.gcr.io/kube-scheduler:v1.13.1"
-docker save k8s.gcr.io/kube-scheduler:v1.13.1 -o A3-k8s-kube-scheduler-v1.13.1.tar
+echo "A3.>> k8s.gcr.io/kube-scheduler:v1.13.2"
+docker save k8s.gcr.io/kube-scheduler:v1.13.2 -o A3-k8s-kube-scheduler-v1.13.2.tar
 echo ""
 
-echo "A4.>> k8s.gcr.io/kube-proxy:v1.13.1"
-docker save k8s.gcr.io/kube-proxy:v1.13.1 -o A4-k8s-kube-proxy-v1.13.1.tar
+echo "A4.>> k8s.gcr.io/kube-proxy:v1.13.2"
+docker save k8s.gcr.io/kube-proxy:v1.13.2 -o A4-k8s-kube-proxy-v1.13.2.tar
 echo ""
 
 echo "A5.>> k8s.gcr.io/pause:3.1"
@@ -48,8 +48,8 @@ echo "B3.>> gcr.io/kubernetes-helm/tiller:v2.11.0"
 docker save gcr.io/kubernetes-helm/tiller:v2.11.0 -o B3-helm-tiller-v2.11.0.tar 
 echo ""
 
-echo "B4.>> quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0"
-docker save quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0 -o B4-ingress-controller-0.21.0.tar
+echo "B4.>> quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.22.0"
+docker save quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.22.0 -o B4-ingress-controller-0.22.0.tar
 echo ""
 
 echo "B5.>> k8s.gcr.io/defaultbackend:1.3"

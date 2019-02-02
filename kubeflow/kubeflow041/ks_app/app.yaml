@@ -1,0 +1,4 @@
+apiVersion: 0.3.0
+kind: ksonnet.io/app
+name: ks_app
+version: 0.0.1
