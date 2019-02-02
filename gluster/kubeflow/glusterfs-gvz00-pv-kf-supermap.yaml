@@ -8,6 +8,6 @@ spec:
   accessModes:
     - ReadWriteMany
   glusterfs:
-    endpoints: "glusterfs-gvz00"
-    path: "gvz00"
+    endpoints: "glusterfs-gvzr00"
+    path: "gvzr00"
     readOnly: false

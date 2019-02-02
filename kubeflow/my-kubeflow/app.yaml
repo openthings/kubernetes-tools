@@ -1,0 +1,43 @@
+apiVersion: 0.3.0
+environments:
+  default:
+    destination:
+      namespace: kubeflow
+      server: https://10.1.1.199:6443
+    k8sVersion: v1.13.1
+    path: default
+kind: ksonnet.io/app
+libraries:
+  kubeflow/common:
+    name: common
+    registry: kubeflow
+    version: 8d0b5794fb7a64c50961cf70dc914f95755c306b
+  kubeflow/examples:
+    name: examples
+    registry: kubeflow
+    version: 8d0b5794fb7a64c50961cf70dc914f95755c306b
+  kubeflow/jupyter:
+    name: jupyter
+    registry: kubeflow
+    version: 8d0b5794fb7a64c50961cf70dc914f95755c306b
+  kubeflow/tensorboard:
+    name: tensorboard
+    registry: kubeflow
+    version: 8d0b5794fb7a64c50961cf70dc914f95755c306b
+  kubeflow/tf-serving:
+    name: tf-serving
+    registry: kubeflow
+    version: 797bcb7407a589bacc35b9624120f51f36a83468
+  kubeflow/tf-training:
+    name: tf-training
+    registry: kubeflow
+    version: 8d0b5794fb7a64c50961cf70dc914f95755c306b
+name: my-kubeflow
+registries:
+  incubator:
+    protocol: github
+    uri: github.com/ksonnet/parts/tree/master/incubator
+  kubeflow:
+    protocol: github
+    uri: github.com/kubeflow/kubeflow/tree/v0.4.1/kubeflow
+version: 0.0.1
