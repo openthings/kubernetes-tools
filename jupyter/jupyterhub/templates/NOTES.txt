@@ -18,3 +18,21 @@ Note that this is still an alpha release! If you have questions, feel free to
   1. Read the guide at https://z2jh.jupyter.org
   2. Chat with us at https://gitter.im/jupyterhub/jupyterhub
   3. File issues at https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues
+
+{{- if .Values.hub.extraConfigMap }}
+
+DEPRECATION: hub.extraConfigMap is deprecated in jupyterhub chart 0.8.
+Use top-level `custom` instead:
+
+---
+custom:
+{{- (merge dict .Values.custom .Values.hub.extraConfigMap) | toYaml | nindent 2}}
+---
+{{- end }}
+
+{{- if and (not .Values.scheduling.podPriority.enabled) (and .Values.scheduling.userPlaceholder.enabled .Values.scheduling.userPlaceholder.replicas) }}
+
+WARNING: You are using user placeholders without pod priority enabled, either
+enable pod priority or stop using the user placeholders to avoid wasting cloud
+resources.
+{{- end }}

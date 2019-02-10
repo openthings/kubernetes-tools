@@ -4,11 +4,10 @@ Returns an image-puller daemonset. Two daemonsets will be created like this.
 - continuous-image-puller: for newly added nodes image pulling
 */}}
 {{- define "jupyterhub.imagePuller.daemonset" -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  {{- $label := print "-" .Release.Time.Seconds }}
-  name: {{ print .componentPrefix "image-puller" }}{{- if .hook }}{{ $label }}{{- end }}
+  name: {{ print .componentPrefix "image-puller" }}
   labels:
     {{- include "jupyterhub.labels" . | nindent 4 }}
     {{- if .hook }}
@@ -20,7 +19,7 @@ metadata:
     Allows the daemonset to be deleted when the image-awaiter job is completed.
     */}}
     "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   {{- end }}
 spec:
@@ -34,11 +33,25 @@ spec:
   template:
     metadata:
       labels:
-        {{- /* Changes here will cause the Deployment to restart the pods. */}}
+        {{- /* Changes here will cause the DaemonSet to restart the pods. */}}
         {{- include "jupyterhub.matchLabels" . | nindent 8 }}
     spec:
+      tolerations:
+        {{- include "jupyterhub.userTolerations" . | nindent 8 }}
+      nodeSelector: {{ toJson .Values.singleuser.nodeSelector }}
+      {{- if include "jupyterhub.userNodeAffinityRequired" . }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              {{- include "jupyterhub.userNodeAffinityRequired" . | nindent 14 }}
+      {{- end }}
       terminationGracePeriodSeconds: 0
       automountServiceAccountToken: false
+      {{- if .Values.singleuser.imagePullSecret.enabled }}
+      imagePullSecrets:
+        - name: {{ if .hook -}} hook- {{- end -}} singleuser-image-credentials
+      {{- end }}
       initContainers:
         - name: image-pull-singleuser
           image: {{ .Values.singleuser.image.name }}:{{ .Values.singleuser.image.tag }}
@@ -47,6 +60,19 @@ spec:
             - /bin/sh
             - -c
             - echo "Pulling complete"
+        {{- range $k, $container := .Values.singleuser.profileList }}
+        {{- if $container.kubespawner_override }}
+        {{- if $container.kubespawner_override.image }}
+        - name: image-pull-singleuser-profilelist-{{ $k }}
+          image: {{ $container.kubespawner_override.image }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - echo "Pulling complete"
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if not .Values.singleuser.cloudMetadata.enabled }}
         - name: image-pull-metadata-block
           image: {{ .Values.singleuser.networkTools.image.name }}:{{ .Values.singleuser.networkTools.image.tag }}
@@ -57,8 +83,17 @@ spec:
             - echo "Pulling complete"
         {{- end }}
         {{- range $k, $v := .Values.prePuller.extraImages }}
-        - name: image-pull-{{ $v.name }}
+        - name: image-pull-{{ $k }}
           image: {{ $v.name }}:{{ $v.tag }}
+          imagePullPolicy: {{ $v.policy | default "IfNotPresent" }}
+          command:
+            - /bin/sh
+            - -c
+            - echo "Pulling complete"
+        {{- end }}
+        {{- range $k, $container := .Values.singleuser.extraContainers }}
+        - name: image-pull-singleuser-extra-container-{{ $k }}
+          image: {{ $container.image }}
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh

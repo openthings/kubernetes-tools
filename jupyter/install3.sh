@@ -1,1 +1,1 @@
-helm install ./jupyterhub --version=v0.6 --name=jupyter --namespace=jupyter
+helm install ./jupyterhub --version=v0.7 --name=jupyter --namespace=jupyter

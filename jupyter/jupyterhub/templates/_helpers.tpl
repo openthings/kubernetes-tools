@@ -4,6 +4,44 @@
   objects we define in the .yaml template files.
 
 
+  ## How helpers work
+  Helm helper functions is a good way to avoid repeating something. They will
+  generate some output based on one single dictionary of input that we call the
+  helpers scope. When you are in helm, you access your current scope with a
+  single a single punctuation (.).
+
+  When you ask a helper to render its content, one often forward the current
+  scope to the helper in order to allow it to access .Release.Name,
+  .Values.rbac.enabled and similar values.
+
+  #### Example - Passing the current scope
+  {{ include "jupyterhub.commonLabels" . }}
+
+  It would be possible to pass something specific instead of the current scope
+  (.), but that would make .Release.Name etc. inaccessible by the helper which
+  is something we aim to avoid.
+
+  #### Example - Passing a new scope
+  {{ include "demo.bananaPancakes" (dict "pancakes" 5 "bananas" 3) }}
+
+  To let a helper access the current scope along with additional values we have
+  opted to create dictionary containing additional values that is then populated
+  with additional values from the current scope through a the merge function.
+
+  #### Example - Passing a new scope augmented with the old
+  {{- $_ := merge (dict "appLabel" "kube-lego") . }}
+  {{- include "jupyterhub.matchLabels" $_ | nindent 6 }}
+
+  In this way, the code within the definition of `jupyterhub.matchLabels` will
+  be able to access .Release.Name and .appLabel.
+
+  NOTE:
+    The ordering of merge is crucial, the latter argument is merged into the
+    former. So if you would swap the order you would influence the current scope
+    risking unintentional behavior. Therefore, always put the fresh unreferenced
+    dictionary (dict "key1" "value1") first and the current scope (.) last.
+
+
   ## Declared helpers
   - appLabel          |
   - componentLabel    |
@@ -17,7 +55,7 @@
   ## Example usage
   ```yaml
   # Excerpt from proxy/autohttps/deployment.yaml
-  apiVersion: apps/v1beta2
+  apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: {{ include "jupyterhub.nameField" . }}
@@ -59,7 +97,7 @@
     Used by "jupyterhub.labels" and "jupyterhub.nameField".
 
     NOTE: The component label is determined by either...
-    - 1: The provided scope's .componentLabel 
+    - 1: The provided scope's .componentLabel
     - 2: The template's filename if living in the root folder
     - 3: The template parent folder's name
     -  : ...and is combined with .componentPrefix and .componentSuffix
@@ -125,10 +163,107 @@ component: {{ include "jupyterhub.componentLabel" . }}
 
 
 {{- /*
-  jupyterhub.podCullerSelector:
-    Used to by the pod-culler to select singleuser-server pods. 
-    It simply reformats "jupyterhub.matchLabels".
+  jupyterhub.dockersingleuserconfigjson:
+    Creates a base64 encoded docker registry json blob for use in a image pull
+    secret, just like the `kubectl create secret docker-registry` command does
+    for the generated secrets data.dockerconfigjson field. The output is
+    verified to be exactly the same even if you have a password spanning
+    multiple lines as you may need to use a private GCR registry.
+
+    - https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
 */}}
-{{- define "jupyterhub.podCullerSelector" -}}
-{{ include "jupyterhub.matchLabels" . | replace ": " "=" | replace "\n" "," | quote }}
+{{- define "jupyterhub.dockersingleuserconfigjson" -}}
+{{ include "jupyterhub.dockersingleuserconfigjson.yaml" . | b64enc }}
+{{- end }}
+
+{{- define "jupyterhub.dockersingleuserconfigjson.yaml" -}}
+{{- with .Values.singleuser.imagePullSecret -}}
+{
+  "auths": {
+    {{ .registry | default "https://index.docker.io/v1/" | quote }}: {
+      "username": {{ .username | quote }},
+      "password": {{ .password | quote }},
+      {{- if .email }}
+      "email": {{ .email | quote }},
+      {{- end }}
+      "auth": {{ (print .username ":" .password) | b64enc | quote }}
+    }
+  }
+}
+{{- end }}
+{{- end }}
+
+{{- /*
+  jupyterhub.dockerhubconfigjson:
+    Creates a base64 encoded docker registry json blob for use in a image pull
+    secret, just like the `kubectl create secret docker-registry` command does
+    for the generated secrets data.dockerhubconfigjson field. The output is
+    verified to be exactly the same even if you have a password spanning
+    multiple lines as you may need to use a private GCR registry.
+
+    - https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+*/}}
+{{- define "jupyterhub.dockerhubconfigjson" -}}
+{{ include "jupyterhub.dockerhubconfigjson.yaml" . | b64enc }}
+{{- end }}
+
+{{- define "jupyterhub.dockerhubconfigjson.yaml" -}}
+{{- with .Values.hub.imagePullSecret -}}
+{
+  "auths": {
+    {{ .registry | default "https://index.docker.io/v1/" | quote }}: {
+      "username": {{ .username | quote }},
+      "password": {{ .password | quote }},
+      {{- if .email }}
+      "email": {{ .email | quote }},
+      {{- end }}
+      "auth": {{ (print .username ":" .password) | b64enc | quote }}
+    }
+  }
+}
+{{- end }}
+{{- end }}
+
+{{- /*
+  jupyterhub.resources:
+    The resource request of a singleuser.
+*/}}
+{{- define "jupyterhub.resources" -}}
+{{- $r1 := .Values.singleuser.cpu.guarantee -}}
+{{- $r2 := .Values.singleuser.memory.guarantee -}}
+{{- $r3 := .Values.singleuser.extraResource.guarantees -}}
+{{- $r := or $r1 $r2 $r3 -}}
+{{- $l1 := .Values.singleuser.cpu.limit -}}
+{{- $l2 := .Values.singleuser.memory.limit -}}
+{{- $l3 := .Values.singleuser.extraResource.limits -}}
+{{- $l := or $l1 $l2 $l3 -}}
+{{- if $r -}}
+requests:
+  {{- if $r1 }}
+  cpu: {{ .Values.singleuser.cpu.guarantee }}
+  {{- end }}
+  {{- if $r2 }}
+  memory: {{ .Values.singleuser.memory.guarantee }}
+  {{- end }}
+  {{- if $r3 }}
+  {{- range $key, $value := .Values.singleuser.extraResource.guarantees }}
+  {{ $key | quote }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- if $l }}
+limits:
+  {{- if $l1 }}
+  cpu: {{ .Values.singleuser.cpu.limit }}
+  {{- end }}
+  {{- if $l2 }}
+  memory: {{ .Values.singleuser.memory.limit }}
+  {{- end }}
+  {{- if $l3 }}
+  {{- range $key, $value := .Values.singleuser.extraResource.limits }}
+  {{ $key | quote }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+{{- end }}
 {{- end }}

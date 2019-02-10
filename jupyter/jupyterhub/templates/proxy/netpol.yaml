@@ -1,11 +1,12 @@
-{{- $HTTPS := (and .Values.proxy.https.hosts .Values.proxy.https.enabled) }}
-{{- $autoHTTPS := (and $HTTPS (eq .Values.proxy.https.type "letsencrypt")) }}
-{{- $manualHTTPS := (and $HTTPS (eq .Values.proxy.https.type "manual")) }}
-{{- if and .Values.proxy.networkPolicy.enabled -}}
+{{- $HTTPS := .Values.proxy.https.enabled -}}
+{{- $autoHTTPS := and $HTTPS (and (eq .Values.proxy.https.type "letsencrypt") .Values.proxy.https.hosts) -}}
+{{- $manualHTTPS := and $HTTPS (eq .Values.proxy.https.type "manual") -}}
+{{- $manualHTTPSwithsecret := and $HTTPS (eq .Values.proxy.https.type "secret") -}}
+{{- if .Values.proxy.networkPolicy.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: proxy-network-policy
+  name: proxy
   labels:
     {{- include "jupyterhub.labels" . | nindent 4 }}
 spec:
@@ -25,7 +26,7 @@ spec:
       - protocol: TCP
         port: 8000
       {{- end }}
-      {{- if $manualHTTPS }}
+      {{- if or $manualHTTPS $manualHTTPSwithsecret}}
       - protocol: TCP
         port: 8443
       {{- end }}
@@ -51,9 +52,9 @@ spec:
           port: 8001
   egress:
     {{- /*
-    The default is to allow all egress for hub If you want to restrict it the
+    The default is to allow all egress for proxy If you want to restrict it the
     following egress is required
-      -  proxy:8001
+      -  hub:8081
       -  singleuser:8888
       -  Kubernetes api-server
     */}}

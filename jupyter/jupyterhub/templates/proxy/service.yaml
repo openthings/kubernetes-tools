@@ -1,6 +1,8 @@
-{{- $HTTPS := (and .Values.proxy.https.hosts .Values.proxy.https.enabled) }}
-{{- $autoHTTPS := (and $HTTPS (eq .Values.proxy.https.type "letsencrypt")) }}
-{{- $manualHTTPS := (and $HTTPS (eq .Values.proxy.https.type "manual")) -}}
+{{- $HTTPS := .Values.proxy.https.enabled -}}
+{{- $autoHTTPS := and $HTTPS (and (eq .Values.proxy.https.type "letsencrypt") .Values.proxy.https.hosts) -}}
+{{- $offloadHTTPS := and $HTTPS (eq .Values.proxy.https.type "offload") -}}
+{{- $manualHTTPS := and $HTTPS (eq .Values.proxy.https.type "manual") -}}
+{{- $manualHTTPSwithsecret := and $HTTPS (eq .Values.proxy.https.type "secret") -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -56,8 +58,10 @@ spec:
     - name: https
       port: 443
       protocol: TCP
-      {{- if $manualHTTPS }}
+      {{- if or $manualHTTPS $manualHTTPSwithsecret }}
       targetPort: 8443
+      {{- else if $offloadHTTPS }}
+      targetPort: 8000
       {{- else }}
       targetPort: 443
       {{- end }}

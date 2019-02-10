@@ -1,8 +1,12 @@
+custom: {}
+
 hub:
   service:
     type: ClusterIP
+    annotations: {}
     ports:
       nodePort:
+    loadBalancerIP:
   baseUrl: /
   cookieSecret:
   publicURL:
@@ -10,7 +14,13 @@ hub:
   fsGid: 1000
   nodeSelector: {}
   concurrentSpawnLimit: 64
+  consecutiveFailureLimit: 5
   activeServerLimit:
+  deploymentStrategy:
+    # sqlite-pvc backed hub requires Recreate strategy to work
+    type: Recreate
+    # This is required for upgrading to work
+    rollingUpdate:
   db:
     type: sqlite-pvc
     upgrade:
@@ -21,20 +31,14 @@ hub:
         - ReadWriteOnce
       storage: 1Gi
       subPath:
-      storageClassName: "nfs"
+      storageClassName:
     url:
+    password:
   labels: {}
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: /hub/metrics
+  annotations: {}
   extraConfig: {}
   extraConfigMap: {}
-#  extraEnv: {}
-  extraEnv:
-    JUPYTER_ENABLE_LAB: 1
-  extraConfig: |
-    c.KubeSpawner.cmd = ['jupyter-labhub']
-
+  extraEnv: {}
   extraContainers: []
   extraVolumes: []
   extraVolumeMounts: []
@@ -47,14 +51,22 @@ hub:
       memory: 512Mi
   services: {}
   imagePullPolicy: IfNotPresent
+  imagePullSecret:
+    enabled: false
+    registry:
+    username:
+    email:
+    password:
   pdb:
     enabled: true
+    minAvailable: 1
   networkPolicy:
     enabled: false
     egress:
       - to:
           - ipBlock:
               cidr: 0.0.0.0/0
+  allowNamedServers: false
 
 
 rbac:
@@ -62,15 +74,15 @@ rbac:
 
 
 proxy:
-#  secretToken: "6f1938382f3c5590fa18f406c3bb038efe99f8c1137b48291a6673513bd61877"
   secretToken: "dd059008b578a60b058725b74af50c7589300aab4ede45f5249a3b197355f181"
   service:
-    type: NodePort
+    type: LoadBalancer
     labels: {}
     annotations: {}
     nodePorts:
       http:
       https:
+    loadBalancerIP:
   chp:
     image:
       name: jupyterhub/configurable-http-proxy
@@ -83,27 +95,34 @@ proxy:
   nginx:
     image:
       name: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
-      tag: 0.15.0
+      tag: 0.22.0
       pullPolicy: IfNotPresent
     proxyBodySize: 64m
     resources: {}
   lego:
     image:
       name: jetstack/kube-lego
-      tag: 0.1.6
+      tag: 0.1.7
+      pullPolicy: IfNotPresent
     resources: {}
-  labels:
+  labels: {}
   nodeSelector: {}
   pdb:
     enabled: true
+    minAvailable: 1
   https:
     enabled: true
     type: letsencrypt
+    #type: letsencrypt, manual, offload, secret
     letsencrypt:
       contactEmail: ''
     manual:
       key:
       cert:
+    secret:
+      name: ''
+      key: tls.key
+      crt: tls.crt
     hosts: []
   networkPolicy:
     enabled: false
@@ -120,8 +139,6 @@ auth:
   admin:
     access: true
     users:
-      - supermap
-      - openthings
   dummy:
     password:
   ldap:
@@ -135,57 +152,69 @@ auth:
 
 
 singleuser:
+  extraTolerations: []
+  nodeSelector: {}
+  extraNodeAffinity:
+    required: []
+    preferred: []
+  extraPodAffinity:
+    required: []
+    preferred: []
+  extraPodAntiAffinity:
+    required: []
+    preferred: []
   networkTools:
     image:
       name: jupyterhub/k8s-network-tools
       tag: 36a8dcb
   cloudMetadata:
-    enabled: true
+    enabled: false
     ip: 169.254.169.254
   networkPolicy:
     enabled: false
     egress:
-    - ports:
-      - port: 53
-        protocol: UDP
     # Required egress is handled by other rules so it's safe to modify this
-    #  - to:
-    #      - ipBlock:
-    #          cidr: 0.0.0.0/0
-    #          except:
-    #            - 169.254.169.254/32
-
-  extraLabels: {}
-  #extraEnv: {}
-  extraEnv: 
-    GRANT_SUDO: yes
+      - to:
+          - ipBlock:
+              cidr: 0.0.0.0/0
+              except:
+                - 169.254.169.254/32
+  events: true
+  extraAnnotations: {}
+  extraLabels:
+    hub.jupyter.org/network-access-hub: 'true'
+  extraEnv: {}
   lifecycleHooks:
-  initContainers:
-  nodeSelector: {}
+  initContainers: []
+  extraContainers: []
   uid: 1000
   fsGid: 100
   serviceAccountName:
-  schedulerStrategy:
   storage:
     type: dynamic
+    extraLabels: {}
     extraVolumes: []
     extraVolumeMounts: []
-    #static:
-    #  pvcName:
-    #  subPath: '{username}'
-    capacity: 1Gi
+    static:
+      pvcName:
+      subPath: '{username}'
+    capacity: 10Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass: "nfs"
+      storageClass:
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: jupyter/all-spark-notebook
-    tag: 5811dcb711ba
-    # name: jupyterhub/k8s-singleuser-sample
-    # tag: 36a8dcb
+    name: jupyterhub/k8s-singleuser-sample
+    tag: 36a8dcb
     pullPolicy: IfNotPresent
+  imagePullSecret:
+    enabled: false
+    registry:
+    username:
+    email:
+    password:
   startTimeout: 300
   cpu:
     limit:
@@ -193,20 +222,54 @@ singleuser:
   memory:
     limit:
     guarantee: 1G
+  extraResource:
+    limits: {}
+    guarantees: {}
   cmd: jupyterhub-singleuser
-  defaultUrl: "/lab"
+  defaultUrl:
+
+
+scheduling:
+  userScheduler:
+    enabled: false
+    replicas: 1
+    logLevel: 4
+    image:
+      name: gcr.io/google_containers/kube-scheduler-amd64
+      tag: v1.13.2
+    nodeSelector: {}
+    pdb:
+      enabled: true
+      minAvailable: 1
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+  podPriority:
+    enabled: false
+    globalDefault: false
+    defaultPriority: 0
+    userPlaceholderPriority: -10
+  userPlaceholder:
+    enabled: true
+    replicas: 0
+  corePods:
+    nodeAffinity:
+      matchNodePurpose: prefer
+  userPods:
+    nodeAffinity:
+      matchNodePurpose: prefer
 
 
 prePuller:
   hook:
     enabled: true
-    extraEnv: {}
     image:
       name: jupyterhub/k8s-image-awaiter
       tag: 36a8dcb
   continuous:
     enabled: false
-  extraImages: []
+  extraImages: {}
   pause:
     image:
       name: gcr.io/google_containers/pause
@@ -217,7 +280,8 @@ ingress:
   enabled: false
   annotations: {}
   hosts: []
-  tls:
+  pathSuffix: ''
+  tls: []
 
 
 cull:
@@ -227,10 +291,6 @@ cull:
   every: 600
   concurrency: 10
   maxAge: 0
-  podCuller:
-    image:
-      name: jupyterhub/k8s-pod-culler
-      tag: 36a8dcb
 
 
 debug:
