@@ -1,0 +1,5 @@
+[local]
+192.168.199.173 ansible_ssh_port=22 ansible_ssh_host=192.168.199.173 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
+192.168.199.180 ansible_ssh_port=22 ansible_ssh_host=192.168.199.180 ansible_ssh_user=supermap ansible_ssh_pass=SuperMap
+192.168.199.249 ansible_ssh_port=22 ansible_ssh_host=192.168.199.249 ansible_ssh_user=openswitch ansible_ssh_pass=SuperMap
+
