@@ -40,7 +40,7 @@ hub:
   extraVolumeMounts: []
   image:
     name: jupyterhub/k8s-hub
-    tag: 36a8dcb
+    tag: 774d36f
   resources:
     requests:
       cpu: 200m
@@ -74,7 +74,7 @@ proxy:
   chp:
     image:
       name: jupyterhub/configurable-http-proxy
-      tag: 3.0.0
+      tag: 3.1.1
       pullPolicy: IfNotPresent
     resources:
       requests:
@@ -83,14 +83,14 @@ proxy:
   nginx:
     image:
       name: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
-      tag: 0.15.0
+      tag: 0.22.0
       pullPolicy: IfNotPresent
     proxyBodySize: 64m
     resources: {}
   lego:
     image:
       name: jetstack/kube-lego
-      tag: 0.1.6
+      tag: canary
     resources: {}
   labels:
   nodeSelector: {}
@@ -138,7 +138,7 @@ singleuser:
   networkTools:
     image:
       name: jupyterhub/k8s-network-tools
-      tag: 36a8dcb
+      tag: cc865bd
   cloudMetadata:
     enabled: true
     ip: 169.254.169.254
@@ -181,10 +181,10 @@ singleuser:
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: jupyter/all-spark-notebook
-    tag: 5811dcb711ba
-    # name: jupyterhub/k8s-singleuser-sample
-    # tag: 36a8dcb
+    #name: jupyter/all-spark-notebook
+    #tag: 5811dcb711ba
+    name: jupyterhub/k8s-singleuser-sample
+    tag: 0.7.0
     pullPolicy: IfNotPresent
   startTimeout: 300
   cpu:
@@ -203,7 +203,7 @@ prePuller:
     extraEnv: {}
     image:
       name: jupyterhub/k8s-image-awaiter
-      tag: 36a8dcb
+      tag: cc865bd
   continuous:
     enabled: false
   extraImages: []
@@ -230,7 +230,7 @@ cull:
   podCuller:
     image:
       name: jupyterhub/k8s-pod-culler
-      tag: 36a8dcb
+      tag: 0.7.0
 
 
 debug:
