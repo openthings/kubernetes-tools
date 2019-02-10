@@ -44,7 +44,7 @@ hub:
   extraVolumeMounts: []
   image:
     name: jupyterhub/k8s-hub
-    tag: 36a8dcb
+    tag: 774d36f
   resources:
     requests:
       cpu: 200m
@@ -86,7 +86,7 @@ proxy:
   chp:
     image:
       name: jupyterhub/configurable-http-proxy
-      tag: 3.0.0
+      tag: 3.1.1
       pullPolicy: IfNotPresent
     resources:
       requests:
@@ -166,7 +166,7 @@ singleuser:
   networkTools:
     image:
       name: jupyterhub/k8s-network-tools
-      tag: 36a8dcb
+      tag: cc865bd
   cloudMetadata:
     enabled: false
     ip: 169.254.169.254
@@ -206,8 +206,10 @@ singleuser:
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
+    #name: jupyter/all-spark-notebook
+    #tag: 5811dcb711ba
     name: jupyterhub/k8s-singleuser-sample
-    tag: 36a8dcb
+    tag: 0.7.0
     pullPolicy: IfNotPresent
   imagePullSecret:
     enabled: false
@@ -266,7 +268,7 @@ prePuller:
     enabled: true
     image:
       name: jupyterhub/k8s-image-awaiter
-      tag: 36a8dcb
+      tag: cc865bd
   continuous:
     enabled: false
   extraImages: {}
@@ -291,6 +293,10 @@ cull:
   every: 600
   concurrency: 10
   maxAge: 0
+  podCuller:
+    image:
+      name: jupyterhub/k8s-pod-culler
+      tag: 0.7.0
 
 
 debug:
