@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hub-db-dir
+  namespace: jupyter
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteMany
+  glusterfs:
+    endpoints: "glusterfs-gvzr00"
+    path: "gvzr00"
+    readOnly: false

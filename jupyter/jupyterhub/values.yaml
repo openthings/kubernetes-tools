@@ -238,7 +238,7 @@ scheduling:
     logLevel: 4
     image:
       name: gcr.io/google_containers/kube-scheduler-amd64
-      tag: v1.13.2
+      tag: v1.13.3
     nodeSelector: {}
     pdb:
       enabled: true

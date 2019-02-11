@@ -21,16 +21,16 @@ echo "A3.<< quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.22.
 sudo docker load -i ${images_path}A3-quay.io-kubernetes-ingress-controller-nginx-ingress-controller-0.22.0.tar
 echo ""
 
-echo "A4.<< jetstack/kube-lego:canary"
-sudo docker load -i ${images_path}A4-jetstack-kube-lego-canary.tar
+echo "A4.<< jetstack/kube-lego:0.1.7"
+sudo docker load -i ${images_path}A4-jetstack-kube-lego-0.1.7.tar
 echo ""
 
 echo "A5.<< jupyterhub/k8s-network-tools:cc865bd"
 sudo docker load -i ${images_path}A5-jupyterhub-k8s-network-tools-cc865bd.tar
 echo ""
 
-echo "A6.<< jupyterhub/k8s-singleuser-sample:cc865bd"
-sudo docker load -i ${images_path}A6-jupyterhub-k8s-singleuser-sample-cc865bd.tar
+echo "A6.<< jupyterhub/k8s-singleuser-sample:0.7.0"
+sudo docker load -i ${images_path}A6-jupyterhub-k8s-singleuser-sample-0.7.0.tar
 echo ""
 
 echo "A7.<< jupyterhub/k8s-image-awaiter:cc865bd"

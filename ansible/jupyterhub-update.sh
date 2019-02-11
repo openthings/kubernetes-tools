@@ -1,1 +1,1 @@
-ansible all -i hosts_ansible -m shell -a "unzip -u /home/supermap/k8s-jupyterhub-images.zip && cd /home/supermap/k8s-jupyterhub-images && ./jupyterhub-images-load.sh" --ask-sudo-pass --become --become-method=sudo
+ansible all -i hosts_ansible -m shell -a "unzip -u -o /home/supermap/jupyterhub-k8s-images.zip && cd /home/supermap/jupyterhub-k8s-images && ./jupyterhub-images-load.sh" --ask-sudo-pass --become --become-method=sudo
