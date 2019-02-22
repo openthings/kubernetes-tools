@@ -1,8 +1,8 @@
 {{ if .Values.notary.enabled }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "harbor.fullname" . }}-notary-signer
+  name: {{ template "harbor.notary-signer" . }}
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: notary-signer
@@ -17,13 +17,17 @@ spec:
       labels:
 {{ include "harbor.labels" . | indent 8 }}
         component: notary-signer
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/notary/notary-cm.yaml") . | sha256sum }}
     spec:
       containers:
       - name: notary-signer
         image: {{ .Values.notary.signer.image.repository }}:{{ .Values.notary.signer.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+{{- if .Values.notary.signer.resources }}
         resources:
 {{ toYaml .Values.notary.signer.resources | indent 10 }}
+{{- end }}
         env:
         - name: MIGRATIONS_PATH
           value: migrations/signer/postgresql
@@ -37,7 +41,7 @@ spec:
       volumes:
       - name: notary-config
         configMap:
-          name: "{{ template "harbor.fullname" . }}-notary"
+          name: "{{ template "harbor.notary-server" . }}"
     {{- with .Values.notary.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

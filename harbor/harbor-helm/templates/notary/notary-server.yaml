@@ -1,8 +1,8 @@
 {{ if .Values.notary.enabled }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "harbor.fullname" . }}-notary-server
+  name: {{ template "harbor.notary-server" . }}
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: notary-server
@@ -17,13 +17,21 @@ spec:
       labels:
 {{ include "harbor.labels" . | indent 8 }}
         component: notary-server
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/notary/notary-cm.yaml") . | sha256sum }}
+        checksum/secret-core: {{ include (print $.Template.BasePath "/core/core-secret.yaml") . | sha256sum }}
+{{- if .Values.notary.podAnnotations }}
+{{ toYaml .Values.notary.podAnnotations | indent 8 }}
+{{- end }}
     spec:
       containers:
       - name: notary-server
         image: {{ .Values.notary.server.image.repository }}:{{ .Values.notary.server.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+{{- if .Values.notary.server.resources }}
         resources:
 {{ toYaml .Values.notary.server.resources | indent 10 }}
+{{- end }}
         env:
         - name: MIGRATIONS_PATH
           value: migrations/server/postgresql
@@ -38,10 +46,10 @@ spec:
       volumes:
       - name: notary-config
         configMap:
-          name: "{{ template "harbor.fullname" . }}-notary"
+          name: "{{ template "harbor.notary-server" . }}"
       - name: root-certificate
         secret:
-          secretName: "{{ template "harbor.fullname" . }}-ui"
+          secretName: {{ template "harbor.core" . }}
     {{- with .Values.notary.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

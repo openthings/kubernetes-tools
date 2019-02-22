@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ template "harbor.fullname" . }}-registry"
+  name: "{{ template "harbor.registry" . }}"
   labels:
 {{ include "harbor.labels" . | indent 4 }}
 data:
   config.yml: |+
     version: 0.1
     log:
-      level: {{ .Values.registry.logLevel }}
+      level: {{ .Values.logLevel }}
       fields:
         service: registry
     storage:
-      {{- $storage := .Values.registry.storage }}
+      {{- $storage := .Values.persistence.imageChartStorage }}
       {{- $type := $storage.type }}
       {{- if eq $type "filesystem" }}
       filesystem:
@@ -30,6 +30,7 @@ data:
       {{- else if eq $type "gcs" }}
       gcs:
         bucket: {{ $storage.gcs.bucket }}
+        keyfile: /etc/registry/gcs-key.json
         {{- if $storage.gcs.rootdirectory }}
         rootdirectory: {{ $storage.gcs.rootdirectory }}
         {{- end }}
@@ -136,10 +137,12 @@ data:
           enabled: false
       delete:
         enabled: true
+      redirect:
+        disable: {{ $storage.disableredirect }}
     redis:
       addr: "{{ template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }}"
-      password: {{ template "harbor.redis.password" . }}
-      db: {{ template "harbor.redis.databaseIndex" . }}
+      password: {{ template "harbor.redis.rawPassword" . }}
+      db: {{ template "harbor.redis.registryDatabaseIndex" . }}
     http:
       addr: :5000
       # set via environment variable
@@ -152,11 +155,18 @@ data:
         realm: "{{ .Values.externalURL }}/service/token"
         rootcertbundle: /etc/registry/root.crt
         service: harbor-registry
+    validation:
+      disabled: true
     notifications:
       endpoints:
         - name: harbor
           disabled: false
-          url: http://{{ template "harbor.fullname" . }}-ui/service/notifications
+          url: http://{{ template "harbor.core" . }}/service/notifications
           timeout: 3000ms
           threshold: 5
           backoff: 1s
+  ctl-config.yml: |+
+    ---
+    protocol: "http"
+    port: 8080
+    log_level: {{ .Values.logLevel }}

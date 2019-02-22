@@ -20,7 +20,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "harbor.labels" -}}
 heritage: {{ .Release.Service }}
 release: {{ .Release.Name }}
-chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+chart: {{ .Chart.Name }}
 app: "{{ template "harbor.name" . }}"
 {{- end -}}
 
@@ -30,21 +30,33 @@ release: {{ .Release.Name }}
 app: "{{ template "harbor.name" . }}"
 {{- end -}}
 
-{{- define "harbor.isAutoGenedCertNeeded" -}}
-  {{- if and (and .Values.ingress.enabled .Values.ingress.tls.enabled) (not .Values.ingress.tls.secretName) -}}
+{{- define "harbor.autoGenCert" -}}
+  {{- if and .Values.expose.tls.enabled (not .Values.expose.tls.secretName) -}}
     {{- printf "true" -}}
   {{- else -}}
     {{- printf "false" -}}
   {{- end -}}
 {{- end -}}
 
-{{- define "harbor.notaryServiceName" -}}
-{{- printf "%s-notary-server" (include "harbor.fullname" .) -}}
+{{- define "harbor.autoGenCertForIngress" -}}
+  {{- if and (eq (include "harbor.autoGenCert" .) "true") (eq .Values.expose.type "ingress") -}}
+    {{- printf "true" -}}
+  {{- else -}}
+    {{- printf "false" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "harbor.autoGenCertForNginx" -}}
+  {{- if and (eq (include "harbor.autoGenCert" .) "true") (ne .Values.expose.type "ingress") -}}
+    {{- printf "true" -}}
+  {{- else -}}
+    {{- printf "false" -}}
+  {{- end -}}
 {{- end -}}
 
 {{- define "harbor.database.host" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- template "harbor.fullname" . }}-database
+    {{- template "harbor.database" . }}
   {{- else -}}
     {{- .Values.database.external.host -}}
   {{- end -}}
@@ -66,20 +78,16 @@ app: "{{ template "harbor.name" . }}"
   {{- end -}}
 {{- end -}}
 
-{{- define "harbor.database.password" -}}
-  {{- if eq .Values.database.type "internal" -}}
-    {{- .Values.database.internal.password | b64enc | quote -}}
-  {{- else -}}
-    {{- .Values.database.external.password | b64enc | quote -}}
-  {{- end -}}
-{{- end -}}
-
 {{- define "harbor.database.rawPassword" -}}
   {{- if eq .Values.database.type "internal" -}}
     {{- .Values.database.internal.password -}}
   {{- else -}}
     {{- .Values.database.external.password -}}
   {{- end -}}
+{{- end -}}
+
+{{- define "harbor.database.encryptedPassword" -}}
+  {{- include "harbor.database.rawPassword" . | b64enc | quote -}}
 {{- end -}}
 
 {{- define "harbor.database.coreDatabase" -}}
@@ -135,45 +143,74 @@ postgres://{{ template "harbor.database.username" . }}:{{ template "harbor.datab
 {{- end -}}
 
 {{- define "harbor.redis.host" -}}
-  {{- if .Values.redis.external.enabled -}}
-    {{- .Values.redis.external.host -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- template "harbor.redis" . -}}
   {{- else -}}
-    {{- .Release.Name }}-redis-master
+    {{- .Values.redis.external.host -}}
   {{- end -}}
 {{- end -}}
 
 {{- define "harbor.redis.port" -}}
-  {{- if .Values.redis.external.enabled -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- printf "%s" "6379" -}}
+  {{- else -}}
     {{- .Values.redis.external.port -}}
-  {{- else -}}
-    {{- .Values.redis.master.port }}
   {{- end -}}
 {{- end -}}
 
-{{- define "harbor.redis.databaseIndex" -}}
-  {{- if .Values.redis.external.enabled -}}
-    {{- .Values.redis.external.databaseIndex -}}
-  {{- else -}}
+{{- define "harbor.redis.coreDatabaseIndex" -}}
+  {{- if eq .Values.redis.type "internal" -}}
     {{- printf "%s" "0" }}
+  {{- else -}}
+    {{- .Values.redis.external.coreDatabaseIndex -}}
   {{- end -}}
 {{- end -}}
 
-{{- define "harbor.redis.password" -}}
-  {{- if and .Values.redis.external.enabled .Values.redis.external.usePassword -}}
+{{- define "harbor.redis.jobserviceDatabaseIndex" -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- printf "%s" "1" }}
+  {{- else -}}
+    {{- .Values.redis.external.jobserviceDatabaseIndex -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "harbor.redis.registryDatabaseIndex" -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- printf "%s" "2" }}
+  {{- else -}}
+    {{- .Values.redis.external.registryDatabaseIndex -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "harbor.redis.chartmuseumDatabaseIndex" -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- printf "%s" "3" }}
+  {{- else -}}
+    {{- .Values.redis.external.chartmuseumDatabaseIndex -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "harbor.redis.rawPassword" -}}
+  {{- if and (eq .Values.redis.type "external") .Values.redis.external.password -}}
     {{- .Values.redis.external.password -}}
-  {{- else if and (not .Values.redis.external.enabled) .Values.redis.usePassword -}}
-    {{- .Values.redis.password -}}
   {{- end -}}
 {{- end -}}
 
 {{/*the username redis is used for a placeholder as no username needed in redis*/}}
 {{- define "harbor.redisForJobservice" -}}
-  {{- if and .Values.redis.external.enabled .Values.redis.external.usePassword -}}
-    redis:{{ template "harbor.redis.password" . }}@{{ template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }}/{{ template "harbor.redis.databaseIndex" }}
-  {{- else if and (not .Values.redis.external.enabled) .Values.redis.usePassword -}}
-    redis:{{ template "harbor.redis.password" . }}@{{ template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }}/{{ template "harbor.redis.databaseIndex" }}
+  {{- if (include "harbor.redis.rawPassword" . ) -}}
+    {{- printf "redis://redis:%s@%s:%s/%s" (include "harbor.redis.rawPassword" . ) (include "harbor.redis.host" . ) (include "harbor.redis.port" . ) (include "harbor.redis.jobserviceDatabaseIndex" . ) }}
   {{- else }}
-    {{- template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }}/{{ template "harbor.redis.databaseIndex" }}
+    {{- template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }}/{{ template "harbor.redis.jobserviceDatabaseIndex" . }}
+  {{- end -}}
+{{- end -}}
+
+{{/*the username redis is used for a placeholder as no username needed in redis*/}}
+{{- define "harbor.redisForGC" -}}
+  {{- if (include "harbor.redis.rawPassword" . ) -}}
+    {{- printf "redis://redis:%s@%s:%s/%s" (include "harbor.redis.rawPassword" . ) (include "harbor.redis.host" . ) (include "harbor.redis.port" . ) (include "harbor.redis.registryDatabaseIndex" . ) }}
+  {{- else }}
+    {{- printf "redis://%s:%s/%s" (include "harbor.redis.host" . ) (include "harbor.redis.port" . ) (include "harbor.redis.registryDatabaseIndex" . ) -}}
   {{- end -}}
 {{- end -}}
 
@@ -181,10 +218,54 @@ postgres://{{ template "harbor.database.username" . }}:{{ template "harbor.datab
 host:port,pool_size,password
 100 is the default value of pool size
 */}}
-{{- define "harbor.redisForUI" -}}
-  {{- template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }},100,{{ template "harbor.redis.password" . }}
+{{- define "harbor.redisForCore" -}}
+  {{- template "harbor.redis.host" . }}:{{ template "harbor.redis.port" . }},100,{{ template "harbor.redis.rawPassword" . }}
 {{- end -}}
 
 {{- define "harbor.portal" -}}
   {{- printf "%s-portal" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.core" -}}
+  {{- printf "%s-core" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.redis" -}}
+  {{- printf "%s-redis" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.jobservice" -}}
+  {{- printf "%s-jobservice" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.registry" -}}
+  {{- printf "%s-registry" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.chartmuseum" -}}
+  {{- printf "%s-chartmuseum" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.database" -}}
+  {{- printf "%s-database" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.clair" -}}
+  {{- printf "%s-clair" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.notary-server" -}}
+  {{- printf "%s-notary-server" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.notary-signer" -}}
+  {{- printf "%s-notary-signer" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.nginx" -}}
+  {{- printf "%s-nginx" (include "harbor.fullname" .) -}}
+{{- end -}}
+
+{{- define "harbor.ingress" -}}
+  {{- printf "%s-ingress" (include "harbor.fullname" .) -}}
 {{- end -}}
