@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-harbor-jobservice
+  namespace: harbor
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /home/supermap/harbor/harbor-harbor-jobservice

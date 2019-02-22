@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: database-data-harbor-harbor-database-0
+  namespace: harbor
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 16Gi
