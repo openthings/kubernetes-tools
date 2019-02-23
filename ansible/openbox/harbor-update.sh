@@ -1,0 +1,1 @@
+ansible all -i hosts_ansible -m shell -a "unzip -u -o /home/supermap/harbor-k8s-images.zip && cd /home/supermap/harbor-k8s-images && ./harbor-images-load.sh" --ask-sudo-pass --become --become-method=sudo
