@@ -8,7 +8,5 @@ spec:
     storage: 16Gi
   accessModes:
     - ReadWriteMany
-  glusterfs:
-    endpoints: "glusterfs-gvr0"
-    path: "gvr0/database-data-harbor-harbor-database-0"
-    readOnly: false
+  hostPath:
+    path: /home/supermap/gvzr0/database-data-harbor-harbor-database-0

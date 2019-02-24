@@ -8,7 +8,5 @@ spec:
     storage: 8Gi
   accessModes:
     - ReadWriteMany
-  glusterfs:
-    endpoints: "glusterfs-gvr0"
-    path: "gvr0/harbor-harbor-registry"
-    readOnly: false
+  hostPath:
+    path: /home/supermap/gvr0/harbor-harbor-registry

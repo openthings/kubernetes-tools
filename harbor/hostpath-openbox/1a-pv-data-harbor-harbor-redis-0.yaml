@@ -1,14 +1,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: harbor-harbor-registry
+  name: data-harbor-harbor-redis-0
   namespace: harbor
 spec:
   capacity:
     storage: 8Gi
   accessModes:
     - ReadWriteMany
-  glusterfs:
-    endpoints: "glusterfs-gvr0"
-    path: "gvr0/harbor-harbor-registry"
-    readOnly: false
+  hostPath:
+    path: /home/supermap/gvr0/data-harbor-harbor-redis-0
+
