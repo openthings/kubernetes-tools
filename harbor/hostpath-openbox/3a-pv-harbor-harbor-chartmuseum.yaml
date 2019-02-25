@@ -9,4 +9,4 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /home/supermap/gvzr0/harbor-harbor-chartmuseum
+    path: /home/supermap/gvr0/harbor-harbor-chartmuseum
