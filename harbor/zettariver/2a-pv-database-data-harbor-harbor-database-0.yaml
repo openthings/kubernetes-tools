@@ -10,5 +10,5 @@ spec:
     - ReadWriteMany
   glusterfs:
     endpoints: "glusterfs-gvzr00"
-    path: "gvzr00"
+    path: "gvzr00/harbor/database-data-harbor-harbor-database-0"
     readOnly: false

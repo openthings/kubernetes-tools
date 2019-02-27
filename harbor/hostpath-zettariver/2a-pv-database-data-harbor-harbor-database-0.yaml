@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: database-data-harbor-harbor-database-0
+  namespace: harbor
+spec:
+  capacity:
+    storage: 16Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /home/supermap/harbor/database-data-harbor-harbor-database-0

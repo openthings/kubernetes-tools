@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-gitlab-ce-data
+  namespace: gitlab
+spec:
+  capacity:
+    storage: 80Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /home/supermap/gitlab/gitlab-gitlab-ce-data
+

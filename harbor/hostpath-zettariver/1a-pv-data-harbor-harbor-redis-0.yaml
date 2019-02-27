@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-harbor-harbor-redis-0
+  namespace: harbor
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /home/supermap/gvzr00/harbor/data-harbor-harbor-redis-0
+

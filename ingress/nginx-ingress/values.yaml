@@ -298,7 +298,8 @@ defaultBackend:
   ## Node labels for default backend pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
-  nodeSelector: {}
+  nodeSelector: 
+    kubernetes.io/hostname: podc02
 
   ## Annotations to be added to default backend pods
   ##

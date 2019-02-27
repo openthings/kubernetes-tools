@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-harbor-jobservice
+  namespace: harbor
+spec:
+  capacity:
+    storage: 80Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /gvzr00/harbor/harbor-harbor-jobservice
+    server: 10.1.1.202
+
