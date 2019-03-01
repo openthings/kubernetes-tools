@@ -5,7 +5,7 @@ metadata:
   namespace: mongodb
 spec:
   capacity:
-    storage: 800Gi
+    storage: 80Gi
   accessModes:
     - ReadWriteMany
   hostPath:

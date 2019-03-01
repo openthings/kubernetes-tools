@@ -1,8 +1,8 @@
 echo "Delete pvc..."
-kubectl delete -n harbor pvc/mongodb
+kubectl delete -n mongodb pvc/mongodb
 echo ""
 
 echo "Delete pv..."
-kubectl delete -n harbor pv/mongodb
+kubectl delete -n mongodb pv/mongodb
 
 echo "Finished."

@@ -8,6 +8,8 @@ To get the root password run:
 
     export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
 
+(aFDMSSC1bx)
+
 To connect to your database run the following command:
 
     kubectl run --namespace mongodb mongodb-client --rm --tty -i --restart='Never' --image bitnami/mongodb --command -- mongo admin --host mongodb --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
