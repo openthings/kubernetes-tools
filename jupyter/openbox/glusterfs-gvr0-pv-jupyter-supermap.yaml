@@ -10,5 +10,5 @@ spec:
     - ReadWriteMany
   glusterfs:
     endpoints: "glusterfs-gvr0"
-    path: "gvr0"
+    path: "gvr0/jupyterhub/claim-supermap"
     readOnly: false
