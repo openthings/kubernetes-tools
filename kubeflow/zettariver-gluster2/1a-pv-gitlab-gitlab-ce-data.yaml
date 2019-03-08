@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hub-db-dir
-  namespace: jupyter
+  name: gitlab-gitlab-ce-data
+  namespace: gitlab
 spec:
   capacity:
-    storage: 8Gi
+    storage: 80Gi
   accessModes:
     - ReadWriteMany
   glusterfs:
     endpoints: "glusterfs-gvzr00"
-    path: "gvzr00"
+    path: "gvzr00/gitlab/gitlab-gitlab-ce-data"
     readOnly: false
