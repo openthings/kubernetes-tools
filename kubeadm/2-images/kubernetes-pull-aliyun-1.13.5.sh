@@ -1,6 +1,6 @@
 echo ""
 echo "=========================================================="
-echo "Pull Kubernetes v1.13.4 Images from aliyuncs.com ......"
+echo "Pull Kubernetes v1.13.5 Images from aliyuncs.com ......"
 echo "=========================================================="
 echo ""
 
@@ -27,7 +27,7 @@ docker tag ${MY_REGISTRY}/k8s-gcr-io-coredns:1.2.6 k8s.gcr.io/coredns:1.2.6
 
 echo ""
 echo "=========================================================="
-echo "Pull Kubernetes v1.13.4 Images FINISHED."
+echo "Pull Kubernetes v1.13.5 Images FINISHED."
 echo "into registry.cn-hangzhou.aliyuncs.com/openthings, "
 echo "           by openthings@https://my.oschina.net/u/2306127."
 echo "=========================================================="
