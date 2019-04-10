@@ -7,7 +7,7 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-K8S_VERSION="1.13.4"
+K8S_VERSION="1.14.1"
 IMAGES_PATH=/home/supermap/k8s-images-$K8S_VERSION
 
 echo "A1<< k8s.gcr.io/kube-apiserver:v$K8S_VERSION"
@@ -30,12 +30,12 @@ echo "A5<< k8s.gcr.io/pause:3.1"
 docker load -i $IMAGES_PATH/A5-k8s-pause-3.1.tar
 echo ""
 
-echo "A6<< k8s.gcr.io/etcd:3.2.24"
-docker load -i $IMAGES_PATH/A6-k8s-etcd-3.2.24.tar
+echo "A6<< k8s.gcr.io/etcd:3.3.10"
+docker load -i $IMAGES_PATH/A6-k8s-etcd-3.3.10.tar
 echo ""
 
-echo "A7<< k8s.gcr.io/coredns:1.2.6"
-docker load -i $IMAGES_PATH/A7-k8s-coredns-1.2.6.tar
+echo "A7<< k8s.gcr.io/coredns:1.3.1"
+docker load -i $IMAGES_PATH/A7-k8s-coredns-1.3.1.tar
 echo ""
 
 echo "==================================================================="
