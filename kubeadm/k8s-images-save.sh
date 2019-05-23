@@ -7,7 +7,7 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-K8S_VERSION="1.13.4"
+K8S_VERSION="1.14.0"
 IMAGES_PATH=~/k8s-images-$K8S_VERSION
 
 mkdir $IMAGES_PATH
@@ -32,12 +32,12 @@ echo "A5.>> k8s.gcr.io/pause:3.1"
 docker save k8s.gcr.io/pause:3.1 -o $IMAGES_PATH/A5-k8s-pause-3.1.tar
 echo ""
 
-echo "A6.>> k8s.gcr.io/etcd:3.2.24"
-docker save k8s.gcr.io/etcd:3.2.24 -o $IMAGES_PATH/A6-k8s-etcd-3.2.24.tar
+echo "A6.>> k8s.gcr.io/etcd:3.3.10"
+docker save k8s.gcr.io/etcd:3.3.10 -o $IMAGES_PATH/A6-k8s-etcd-3.3.10.tar
 echo ""
 
-echo "A7.>> k8s.gcr.io/coredns:1.2.6"
-docker save k8s.gcr.io/coredns:1.2.6 -o $IMAGES_PATH/A7-k8s-coredns-1.2.6.tar
+echo "A7.>> k8s.gcr.io/coredns:1.3.1"
+docker save k8s.gcr.io/coredns:1.3.1 -o $IMAGES_PATH/A7-k8s-coredns-1.3.1.tar
 echo ""
 
 echo "==================================================================="
