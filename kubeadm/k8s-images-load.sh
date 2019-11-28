@@ -7,7 +7,7 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-K8S_VERSION="1.16.2"
+K8S_VERSION="1.16.3"
 
 IMAGES_PATH=/home/supermap/k8s-images-$K8S_VERSION
 
@@ -32,7 +32,7 @@ docker load -i $IMAGES_PATH/A5-k8s-pause-3.1.tar
 echo ""
 
 echo "A6<< k8s.gcr.io/etcd:3.3.15-0"
-docker load -i $IMAGES_PATH/A6-k8s-etcd-3.3.15.tar
+docker load -i $IMAGES_PATH/A6-k8s-etcd-3.3.15-0.tar
 echo ""
 
 echo "A7<< k8s.gcr.io/coredns:1.6.2"
@@ -44,8 +44,8 @@ echo "B1<< quay.io/coreos/flannel:v0.10.0-amd64"
 docker load -i $IMAGES_PATH/B1-flannel-v0.10.0.tar
 echo ""
 
-echo "B2<< k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0"
-docker load -i $IMAGES_PATH/B2-dashboard-v1.10.0.tar
+echo "B2<< kubernetesui/dashboard:v2.0.0-beta6"
+docker load -i $IMAGES_PATH/B2-dashboard-v2.0.0.tar
 echo ""
 
 echo "B3<< gcr.io/kubernetes-helm/tiller:v2.11.0"
