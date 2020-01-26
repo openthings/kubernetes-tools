@@ -13,7 +13,7 @@ MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
 docker tag k8s.gcr.io/kube-apiserver:v1.17.2 ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.17.2
 docker tag k8s.gcr.io/kube-scheduler:v1.17.2 ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.17.2
 docker tag k8s.gcr.io/kube-controller-manager:v1.17.2 ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.17.2
-docker tag k8s.gcr.io/kube-proxy:v1.17.2 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.17.1
+docker tag k8s.gcr.io/kube-proxy:v1.17.2 ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.17.2
 docker tag k8s.gcr.io/etcd:3.4.3-0 ${MY_REGISTRY}/k8s-gcr-io-etcd:3.4.3-0
 docker tag k8s.gcr.io/pause:3.1 ${MY_REGISTRY}/k8s-gcr-io-pause:3.1
 docker tag k8s.gcr.io/coredns:1.6.5 ${MY_REGISTRY}/k8s-gcr-io-coredns:1.6.5
