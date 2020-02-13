@@ -20,7 +20,7 @@ docker pull ${MY_REGISTRY}/k8s-gcr-io-coredns:1.3.1
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-apiserver:v1.15.9 k8s.gcr.io/kube-apiserver:v1.15.9
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-scheduler:v1.15.9 k8s.gcr.io/kube-scheduler:v1.15.9
 docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-controller-manager:v1.15.9 k8s.gcr.io/kube-controller-manager:v1.15.9
-docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.15.9 k8s.gcr.io/kube-proxy:v1.15.2
+docker tag ${MY_REGISTRY}/k8s-gcr-io-kube-proxy:v1.15.9 k8s.gcr.io/kube-proxy:v1.15.9
 docker tag ${MY_REGISTRY}/k8s-gcr-io-etcd:3.3.10 k8s.gcr.io/etcd:3.3.10
 docker tag ${MY_REGISTRY}/k8s-gcr-io-pause:3.1 k8s.gcr.io/pause:3.1
 docker tag ${MY_REGISTRY}/k8s-gcr-io-coredns:1.3.1 k8s.gcr.io/coredns:1.3.1
