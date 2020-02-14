@@ -4,7 +4,7 @@ echo "Pull Extra Images from aliyuncs.com ......"
 echo "=========================================================="
 echo ""
 
-MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
+MY_REGISTRY=index.docker.com/openthings
 
 ## 拉取镜像
 
