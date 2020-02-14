@@ -8,7 +8,7 @@ echo ""
 echo "docker tag to openthings ..."
 
 ## 添加Tag for registry.cn-hangzhou.aliyuncs.com/openthings
-MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/openthings
+MY_REGISTRY=index.docker.io/openthings
 
 echo ""
 echo "=========================================================="

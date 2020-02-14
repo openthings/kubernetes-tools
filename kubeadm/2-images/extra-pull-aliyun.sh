@@ -13,8 +13,8 @@ echo "1.k8s-gcr-io-dashboard"
 #docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3
 #docker tag ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.8.3 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
 
-docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0
-docker tag  ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.0 k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0
+docker pull ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.1
+docker tag  ${MY_REGISTRY}/k8s-gcr-io-dashboard:v1.10.1 k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1
 
 echo "-.k8s-gcr-io-heapster"
 docker pull ${MY_REGISTRY}/k8s-gcr-io-heapster-amd64:v1.5.2
