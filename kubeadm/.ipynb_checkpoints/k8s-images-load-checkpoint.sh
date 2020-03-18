@@ -7,7 +7,7 @@ echo "###################################################################"
 echo "Kubernetes core system images."
 echo "-------------------------------------------------------------------"
 
-K8S_VERSION="1.17.2"
+K8S_VERSION="1.17.4"
 
 IMAGES_PATH=/home/supermap/k8s-images-$K8S_VERSION
 

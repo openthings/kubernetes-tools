@@ -1,5 +1,5 @@
 
-echo "Uploading k8s-images-1.15.2.zip to node..."
+echo "Uploading k8s-images-1.17.4.zip to node..."
 
 K8S_VERSION="1.17.1"
 IMAGES_PATH=/home/supermap/k8s-images-${K8S_VERSION}.zip
