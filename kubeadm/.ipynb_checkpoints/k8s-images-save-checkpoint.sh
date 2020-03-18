@@ -42,8 +42,8 @@ docker save k8s.gcr.io/coredns:1.6.5 -o $IMAGES_PATH/A7-k8s-coredns-1.6.5.tar
 echo ""
 
 echo "==================================================================="
-echo "B1.>> quay.io/coreos/flannel:v0.10.0-amd64"
-docker save quay.io/coreos/flannel:v0.10.0-amd64 -o $IMAGES_PATH/B1-flannel-v0.10.0.tar
+echo "B1.>> quay.io/coreos/flannel:v0.12.0-amd64"
+docker save quay.io/coreos/flannel:v0.12.0-amd64 -o $IMAGES_PATH/B1-flannel-v0.12.0.tar
 echo ""
 
 echo "B2.>> kubernetesui/dashboard:v2.0.0-beta6"
@@ -51,7 +51,8 @@ docker save kubernetesui/dashboard:v2.0.0-beta6 -o $IMAGES_PATH/B2-dashboard-v2.
 echo ""
 
 echo "B3.>> gcr.io/kubernetes-helm/tiller:v2.11.0"
-docker save gcr.io/kubernetes-helm/tiller:v2.11.0 -o $IMAGES_PATH/B3-helm-tiller-v2.11.0.tar 
+#docker save gcr.io/kubernetes-helm/tiller:v2.11.0 -o $IMAGES_PATH/B3-helm-tiller-v2.11.0.tar 
+echo "Helm 3 don't need."
 echo ""
 
 echo "B4.>> quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.22.0"
