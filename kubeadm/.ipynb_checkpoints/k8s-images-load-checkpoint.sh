@@ -40,8 +40,8 @@ docker load -i $IMAGES_PATH/A7-k8s-coredns-1.6.5.tar
 echo ""
 
 echo "==================================================================="
-echo "B1<< quay.io/coreos/flannel:v0.10.0-amd64"
-docker load -i $IMAGES_PATH/B1-flannel-v0.10.0.tar
+echo "B1<< quay.io/coreos/flannel:v0.12.0-amd64"
+docker load -i $IMAGES_PATH/B1-flannel-v0.12.0.tar
 echo ""
 
 echo "B2<< kubernetesui/dashboard:v2.0.0-beta6"
