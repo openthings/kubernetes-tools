@@ -1,7 +1,7 @@
 
-echo "Uploading k8s-images-1.17.4.zip to node..."
+echo "Uploading k8s-images-1.18.1.zip to node..."
 
-K8S_VERSION="1.17.1"
+K8S_VERSION="1.18.1"
 IMAGES_PATH=/home/supermap/k8s-images-${K8S_VERSION}.zip
 
 echo "Uploading 10.1.1.202"
@@ -23,7 +23,7 @@ sshpass -p SuperMap scp $IMAGES_PATH supermap@10.1.1.234:/home/supermap/
 echo "Uploading 10.1.1.205"
 sshpass -p SuperMap scp $IMAGES_PATH supermap@10.1.1.205:/home/supermap/
 
-echo "Uploading 10.1.1.112"
+echo "Uploading 10.1.1.206"
 sshpass -p SuperMap scp $IMAGES_PATH supermap@10.1.1.112:/home/supermap/
 
 echo "Uploading 10.1.1.150"
@@ -32,4 +32,4 @@ sshpass -p SuperMap scp $IMAGES_PATH supermap@10.1.1.150:/home/supermap/
 echo "Uploading 10.1.1.166"
 sshpass -p SuperMap scp $IMAGES_PATH supermap@10.1.1.160:/home/supermap/
 
-echo "Upload k8s-images-1.15.2.zip Finished."
+echo "Upload k8s-images-1.18.1.zip Finished."
