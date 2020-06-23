@@ -1,5 +1,5 @@
 MY_REGISTRY=mirrorgcrio
-K8S_VERSION="1.18.2"
+K8S_VERSION="1.18.4"
 
 echo ""
 echo "=========================================================="
