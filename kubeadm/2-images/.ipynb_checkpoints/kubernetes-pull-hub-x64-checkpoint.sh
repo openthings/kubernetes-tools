@@ -1,6 +1,6 @@
 #MY_REGISTRY=mirrorgcrio
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/google_containers
-K8S_VERSION="1.19.2"
+K8S_VERSION="1.19.3"
 
 echo ""
 echo "=========================================================="
