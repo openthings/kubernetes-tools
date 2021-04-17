@@ -1,0 +1,40 @@
+#deployment 
+docker pull gcr.io/kubeflow-images-public/admission-webhook:vmaster-ge5452b6f
+docker pull argoproj/argoui:v2.3.0
+docker pull gcr.io/ml-pipeline/cache-deployer:1.0.4
+docker pull gcr.io/ml-pipeline/cache-server:1.0.4
+docker pull gcr.io/kubeflow-images-public/centraldashboard:vmaster-g8097cfeb
+docker pull gcr.io/kubeflow-images-public/jupyter-web-app:vmaster-g845af298
+docker pull docker.io/kubeflowkatib/katib-controller:v1beta1-a96ff59
+docker pull docker.io/kubeflowkatib/katib-db-manager:v1beta1-a96ff59
+docker pull mysql:8
+docker pull docker.io/kubeflowkatib/katib-ui:v1beta1-a96ff59
+docker pull python:3.7
+docker pull mysql:8.0.3
+docker pull gcr.io/ml-pipeline/envoy:metadata-grpc
+docker pull gcr.io/tfx-oss-public/ml_metadata_store_server:v0.21.1
+docker pull gcr.io/ml-pipeline/metadata-writer:1.0.4
+docker pull gcr.io/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
+docker pull gcr.io/ml-pipeline/api-server:1.0.4
+docker pull gcr.io/ml-pipeline/persistenceagent:1.0.4
+docker pull gcr.io/ml-pipeline/scheduledworkflow:1.0.4
+docker pull gcr.io/ml-pipeline/frontend:1.0.4
+docker pull gcr.io/ml-pipeline/viewer-crd-controller:1.0.4
+docker pull gcr.io/ml-pipeline/visualization-server:1.0.4
+docker pull mpioperator/mpi-operator:latest
+docker pull kubeflow/mxnet-operator:v1.0.0-20200625
+docker pull gcr.io/ml-pipeline/mysql:5.6
+docker pull gcr.io/kubeflow-images-public/notebook-controller:vmaster-g6eb007d0
+docker pull gcr.io/kubeflow-images-public/profile-controller:vmaster-ga49f658f
+docker pull gcr.io/kubeflow-images-public/pytorch-operator:vmaster-g518f9c76
+docker pull docker.io/seldonio/seldon-core-operator:1.4.0
+docker pull gcr.io/spark-operator/spark-operator:v1beta2-1.1.0-2.4.5
+docker pull gcr.io/google_containers/spartakus-amd64:v1.1.0
+docker pull gcr.io/kubeflow-images-public/tf_operator:vmaster-gda226016
+docker pull argoproj/workflow-controller:v2.3.0
+
+#statefulset 
+docker pull gcr.io/kubeflow-images-public/ingress-setup:latest
+docker pull gcr.io/kubeflow-images-public/kubernetes-sigs/application:1.0-beta
+docker pull gcr.io/kubebuilder/kube-rbac-proxy:v0.4.0
+docker pull metacontroller/metacontroller:v0.3.0
