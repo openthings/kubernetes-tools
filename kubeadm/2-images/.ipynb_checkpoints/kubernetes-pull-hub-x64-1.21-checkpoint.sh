@@ -1,6 +1,10 @@
 #MY_REGISTRY=mirrorgcrio
 MY_REGISTRY=registry.cn-hangzhou.aliyuncs.com/google_containers
+<<<<<<< HEAD:kubeadm/2-images/kubernetes-pull-hub-x64.sh
 K8S_VERSION="1.22.1"
+=======
+K8S_VERSION="1.21.0"
+>>>>>>> 5b6742e192f229a44984f3f4fe54389b2a531282:kubeadm/2-images/.ipynb_checkpoints/kubernetes-pull-hub-x64-1.21-checkpoint.sh
 
 echo ""
 echo "=========================================================="
@@ -14,22 +18,38 @@ docker pull ${MY_REGISTRY}/kube-apiserver:v$K8S_VERSION
 docker pull ${MY_REGISTRY}/kube-controller-manager:v$K8S_VERSION
 docker pull ${MY_REGISTRY}/kube-scheduler:v$K8S_VERSION
 docker pull ${MY_REGISTRY}/kube-proxy:v$K8S_VERSION
+<<<<<<< HEAD:kubeadm/2-images/kubernetes-pull-hub-x64.sh
 docker pull ${MY_REGISTRY}/etcd:3.5.0-0
 docker pull ${MY_REGISTRY}/pause:3.5
 
 #docker pull ${MY_REGISTRY}/coredns-arm64:1.6.7
 docker pull ${MY_REGISTRY}/coredns/coredns:v1.8.4
+=======
+docker pull ${MY_REGISTRY}/etcd:3.4.13-0
+docker pull ${MY_REGISTRY}/pause:3.4.1
+
+#docker pull ${MY_REGISTRY}/coredns-arm64:1.6.7
+docker pull coredns/coredns:1.8.0
+>>>>>>> 5b6742e192f229a44984f3f4fe54389b2a531282:kubeadm/2-images/.ipynb_checkpoints/kubernetes-pull-hub-x64-1.21-checkpoint.sh
 
 ## 添加Tag
 docker tag ${MY_REGISTRY}/kube-apiserver:v$K8S_VERSION k8s.gcr.io/kube-apiserver:v$K8S_VERSION
 docker tag ${MY_REGISTRY}/kube-scheduler:v$K8S_VERSION k8s.gcr.io/kube-scheduler:v$K8S_VERSION
 docker tag ${MY_REGISTRY}/kube-controller-manager:v$K8S_VERSION k8s.gcr.io/kube-controller-manager:v$K8S_VERSION
 docker tag ${MY_REGISTRY}/kube-proxy:v$K8S_VERSION k8s.gcr.io/kube-proxy:v$K8S_VERSION
+<<<<<<< HEAD:kubeadm/2-images/kubernetes-pull-hub-x64.sh
 docker tag ${MY_REGISTRY}/etcd:3.5.0-0 k8s.gcr.io/etcd:3.5.0-0
 docker tag ${MY_REGISTRY}/pause:3.5 k8s.gcr.io/pause:3.5
 
 #docker tag ${MY_REGISTRY}/coredns-arm64:1.6.7 k8s.gcr.io/coredns:1.6.7
 docker tag ${MY_REGISTRY}/coredns/coredns:v1.8.4 k8s.gcr.io/coredns/coredns:v1.8.4
+=======
+docker tag ${MY_REGISTRY}/etcd:3.4.13-0 k8s.gcr.io/etcd:3.4.13-0
+docker tag ${MY_REGISTRY}/pause:3.4.1 k8s.gcr.io/pause:3.4.1
+
+#docker tag ${MY_REGISTRY}/coredns-arm64:1.6.7 k8s.gcr.io/coredns:1.6.7
+docker tag coredns/coredns:1.8.0 k8s.gcr.io/coredns:1.8.0
+>>>>>>> 5b6742e192f229a44984f3f4fe54389b2a531282:kubeadm/2-images/.ipynb_checkpoints/kubernetes-pull-hub-x64-1.21-checkpoint.sh
 
 echo ""
 echo "=========================================================="
